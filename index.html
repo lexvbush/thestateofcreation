@@ -286,80 +286,17 @@
       opacity: 0.9;
     }
 
-    /* ── PILLARS ── */
-    .pillars {
-      padding: 8rem 2rem;
-      background: var(--cream);
-    }
-    .pillars-header {
-      text-align: center;
-      margin-bottom: 5rem;
-    }
-    .section-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--stone);
-      margin-bottom: 1rem;
-      display: block;
-    }
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4.5vw, 3.4rem);
-      font-weight: 300;
-      line-height: 1.15;
-    }
-    .section-title em { font-style: italic; color: var(--ember); }
-
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 0;
-      max-width: 1100px;
-      margin: 0 auto;
-      border: 1px solid var(--mist);
-    }
-    .pillar-card {
-      padding: 3rem 2.4rem;
-      border-right: 1px solid var(--mist);
-      border-bottom: 1px solid var(--mist);
-      transition: background 0.3s;
-      cursor: default;
-    }
-    .pillar-card:hover { background: var(--warm-white); }
-    .pillar-card:last-child { border-right: none; }
-
-    .pillar-number {
-      font-family: var(--serif);
-      font-size: 2.6rem;
-      font-weight: 300;
-      color: var(--mist);
-      line-height: 1;
-      margin-bottom: 1.2rem;
-    }
-    .pillar-name {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin-bottom: 0.8rem;
-      letter-spacing: 0.02em;
-    }
-    .pillar-desc {
-      font-size: 0.82rem;
-      line-height: 1.75;
-      color: #6b5c52;
-    }
-
-    /* ── MARQUEE ── */
+    /* ── MARQUEE (static) ── */
     .marquee-wrap {
       background: var(--ember);
-      padding: 1.1rem 0;
+      padding: 1.1rem 1.5rem;
       overflow: hidden;
-      white-space: nowrap;
     }
     .marquee-track {
-      display: inline-flex;
-      animation: marquee 28s linear infinite;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
     }
     .marquee-item {
       font-family: var(--serif);
@@ -368,15 +305,11 @@
       font-weight: 300;
       color: rgba(253,250,246,0.9);
       letter-spacing: 0.05em;
-      padding: 0 2.4rem;
+      padding: 0 1.4rem;
     }
     .marquee-dot {
       color: rgba(253,250,246,0.45);
       font-style: normal;
-    }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
     }
 
     /* ── QUOTE ── */
@@ -411,62 +344,16 @@
       color: var(--stone);
     }
 
-    /* ── CONTENT AREAS ── */
-    .content-areas {
-      padding: 8rem 2rem;
-      background: var(--ink);
-      color: var(--cream);
-    }
-    .content-areas .pillars-header { margin-bottom: 4rem; }
-    .content-areas .section-title { color: var(--cream); }
-
-    .areas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .area-card {
-      padding: 3.4rem 2.8rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      transition: background 0.35s, border-color 0.35s;
-      position: relative;
-      overflow: hidden;
-    }
-    .area-card::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; height: 2px;
-      background: var(--ember);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .area-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); }
-    .area-card:hover::before { transform: scaleX(1); }
-
-    .area-icon {
-      font-size: 1.6rem;
-      margin-bottom: 1.6rem;
+    /* ── ABOUT ── */
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 1rem;
       display: block;
     }
-    .area-title {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 400;
-      margin-bottom: 1rem;
-      color: var(--cream);
-    }
-    .area-desc {
-      font-size: 0.83rem;
-      line-height: 1.8;
-      color: rgba(247,243,238,0.55);
-    }
 
-    /* ── ABOUT ── */
     .about {
       padding: 8rem 2rem;
       background: var(--cream);
@@ -541,66 +428,6 @@
     }
     .about-cta:hover { color: var(--ember); border-color: var(--ember); }
 
-    /* ── INSTAGRAM STRIP ── */
-    .ig-strip {
-      padding: 6rem 2rem;
-      background: var(--warm-white);
-      text-align: center;
-    }
-    .ig-strip .section-label { text-align: center; }
-    .ig-strip .section-title { margin-bottom: 3rem; }
-
-    .ig-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3px;
-      max-width: 900px;
-      margin: 0 auto 3rem;
-    }
-    .ig-cell {
-      aspect-ratio: 1;
-      background: var(--mist);
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .ig-cell::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(14,14,14,0.45);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .ig-cell:hover::after { opacity: 1; }
-    .ig-cell-label {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--serif);
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--stone);
-    }
-    .ig-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1px solid var(--mist);
-      padding-bottom: 2px;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .ig-link:hover { color: var(--ember); border-color: var(--ember); }
-
     /* ── FOOTER ── */
     footer {
       background: var(--ink);
@@ -644,14 +471,11 @@
       .nav-links { gap: 1.4rem; }
       .about-inner { grid-template-columns: 1fr; gap: 3.5rem; }
       .about-visual { max-width: 360px; }
-      .ig-grid { grid-template-columns: repeat(2, 1fr); }
       footer { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
     }
     @media (max-width: 480px) {
       .nav-links { display: none; }
-      .pillars-grid { grid-template-columns: 1fr; }
-      .areas-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -661,8 +485,7 @@
   <nav id="nav">
     <a class="nav-logo" href="#">State of Creation</a>
     <ul class="nav-links">
-      <li><a href="#pillars">Philosophy</a></li>
-      <li><a href="#explore">Explore</a></li>
+      <li><a href="#manifesto">Manifesto</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="https://www.instagram.com/thestateofcreation" target="_blank">Instagram</a></li>
     </ul>
@@ -681,13 +504,13 @@
       purposeful and courageous action is consistently taken.
     </p>
     <div class="hero-scroll">
-      <span>Explore</span>
+      <span>Scroll</span>
       <div class="scroll-line"></div>
     </div>
   </section>
 
   <!-- MANIFESTO -->
-  <section class="manifesto">
+  <section class="manifesto" id="manifesto">
     <div class="manifesto-inner">
       <p class="manifesto-label">Manifesto</p>
       <div class="manifesto-body">
@@ -704,95 +527,17 @@
     </div>
   </section>
 
-  <!-- MARQUEE -->
+  <!-- MARQUEE (static — no longer scrolls) -->
   <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
-      <!-- repeated twice for seamless loop -->
       <span class="marquee-item">Self Awareness <span class="marquee-dot">◆</span></span>
       <span class="marquee-item">Self Discipline <span class="marquee-dot">◆</span></span>
       <span class="marquee-item">Self Nurturing <span class="marquee-dot">◆</span></span>
       <span class="marquee-item">Self Encouragement <span class="marquee-dot">◆</span></span>
       <span class="marquee-item">Self Trust <span class="marquee-dot">◆</span></span>
-      <span class="marquee-item">Self Mastery <span class="marquete-dot">◆</span></span>
-      <span class="marquee-item">Self Awareness <span class="marquee-dot">◆</span></span>
-      <span class="marquee-item">Self Discipline <span class="marquee-dot">◆</span></span>
-      <span class="marquee-item">Self Nurturing <span class="marquee-dot">◆</span></span>
-      <span class="marquee-item">Self Encouragement <span class="marquee-dot">◆</span></span>
-      <span class="marquee-item">Self Trust <span class="marquee-dot">◆</span></span>
-      <span class="marquee-item">Self Mastery <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Self Mastery</span>
     </div>
   </div>
-
-  <!-- PILLARS -->
-  <section class="pillars" id="pillars">
-    <div class="pillars-header">
-      <span class="section-label">The Six Pillars</span>
-      <h2 class="section-title">The architecture<br>of <em>your evolution</em></h2>
-    </div>
-    <div class="pillars-grid">
-
-      <!-- ============================================================
-           PILLAR 01 — Edit the name and description below
-           ============================================================ -->
-      <div class="pillar-card">
-        <div class="pillar-number">01</div>
-        <div class="pillar-name">Self Awareness</div>
-        <!-- EDIT: Replace the text below with your own description for pillar 01 -->
-        <p class="pillar-desc">The foundation of all growth. Learning to witness yourself honestly — without judgment, without story.</p>
-      </div>
-
-      <!-- ============================================================
-           PILLAR 02 — Edit the name and description below
-           ============================================================ -->
-      <div class="pillar-card">
-        <div class="pillar-number">02</div>
-        <div class="pillar-name">Self Discipline</div>
-        <!-- EDIT: Replace the text below with your own description for pillar 02 -->
-        <p class="pillar-desc">The bridge between intention and identity. Every rep, every early morning, every kept promise to yourself.</p>
-      </div>
-
-      <!-- ============================================================
-           PILLAR 03 — Edit the name and description below
-           ============================================================ -->
-      <div class="pillar-card">
-        <div class="pillar-number">03</div>
-        <div class="pillar-name">Self Nurturing</div>
-        <!-- EDIT: Replace the text below with your own description for pillar 03 -->
-        <p class="pillar-desc">Strength built from the inside out. Rest, nourishment, and gentleness are not weakness — they are wisdom.</p>
-      </div>
-
-      <!-- ============================================================
-           PILLAR 04 — Edit the name and description below
-           ============================================================ -->
-      <div class="pillar-card">
-        <div class="pillar-number">04</div>
-        <div class="pillar-name">Self Encouragement</div>
-        <!-- EDIT: Replace the text below with your own description for pillar 04 -->
-        <p class="pillar-desc">Becoming your own greatest advocate. The voice you speak to yourself with shapes the life you're able to build.</p>
-      </div>
-
-      <!-- ============================================================
-           PILLAR 05 — Edit the name and description below
-           ============================================================ -->
-      <div class="pillar-card">
-        <div class="pillar-number">05</div>
-        <div class="pillar-name">Self Trust</div>
-        <!-- EDIT: Replace the text below with your own description for pillar 05 -->
-        <p class="pillar-desc">Returning to your own knowing. Trusting your instincts, honoring your boundaries, following your inner compass.</p>
-      </div>
-
-      <!-- ============================================================
-           PILLAR 06 — Edit the name and description below
-           ============================================================ -->
-      <div class="pillar-card">
-        <div class="pillar-number">06</div>
-        <div class="pillar-name">Self Mastery</div>
-        <!-- EDIT: Replace the text below with your own description for pillar 06 -->
-        <p class="pillar-desc">Not perfection — integration. The continuous, courageous act of becoming more fully yourself.</p>
-      </div>
-
-    </div>
-  </section>
 
   <!-- QUOTE -->
   <section class="quote-section">
@@ -800,61 +545,6 @@
       Here we experience life in a new way — where resistance is a rep for our spirit.
     </blockquote>
     <p class="quote-attribution">— The State of Creation</p>
-  </section>
-
-  <!-- CONTENT AREAS -->
-  <section class="content-areas" id="explore">
-    <div class="pillars-header">
-      <span class="section-label" style="color: var(--ember);">Explore</span>
-      <h2 class="section-title">What we create<br><em>together</em></h2>
-    </div>
-    <div class="areas-grid">
-
-      <!-- ============================================================
-           EXPLORE CARD 1 — Edit the icon, title, and description below
-           ============================================================ -->
-      <div class="area-card">
-        <span class="area-icon">🔥</span>
-        <!-- EDIT: Replace title below -->
-        <div class="area-title">The Courage Log</div>
-        <!-- EDIT: Replace description below -->
-        <p class="area-desc">Real stories of facing fear and choosing to move anyway. Because courage isn't the absence of resistance — it's the decision to act in spite of it.</p>
-      </div>
-
-      <!-- ============================================================
-           EXPLORE CARD 2 — Edit the icon, title, and description below
-           ============================================================ -->
-      <div class="area-card">
-        <span class="area-icon">◎</span>
-        <!-- EDIT: Replace title below -->
-        <div class="area-title">Body & Being</div>
-        <!-- EDIT: Replace description below -->
-        <p class="area-desc">Movement as a doorway to the self. The body is our first teacher — how we train, rest, and inhabit our physical lives is a direct reflection of how we relate to ourselves.</p>
-      </div>
-
-      <!-- ============================================================
-           EXPLORE CARD 3 — Edit the icon, title, and description below
-           ============================================================ -->
-      <div class="area-card">
-        <span class="area-icon">✦</span>
-        <!-- EDIT: Replace title below -->
-        <div class="area-title">Daily State</div>
-        <!-- EDIT: Replace description below -->
-        <p class="area-desc">Small practices with a long reach. Daily prompts, rituals, and reflections designed to bring you back to your most powerful self.</p>
-      </div>
-
-      <!-- ============================================================
-           EXPLORE CARD 4 — Edit the icon, title, and description below
-           ============================================================ -->
-      <div class="area-card">
-        <span class="area-icon">◇</span>
-        <!-- EDIT: Replace title below -->
-        <div class="area-title">Inner Work</div>
-        <!-- EDIT: Replace description below -->
-        <p class="area-desc">Honest, grounded conversations about identity, shadow, and the ongoing work of becoming. A fellow traveler — not a teacher.</p>
-      </div>
-
-    </div>
   </section>
 
   <!-- ABOUT -->
@@ -880,26 +570,12 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM STRIP -->
-  <section class="ig-strip">
-    <span class="section-label">@thestateofcreation</span>
-    <h2 class="section-title">From the <em>feed</em></h2>
-    <div class="ig-grid">
-      <div class="ig-cell"><div class="ig-cell-label">Coming Soon</div></div>
-      <div class="ig-cell"><div class="ig-cell-label">Coming Soon</div></div>
-      <div class="ig-cell"><div class="ig-cell-label">Coming Soon</div></div>
-      <div class="ig-cell"><div class="ig-cell-label">Coming Soon</div></div>
-    </div>
-    <a class="ig-link" href="https://www.instagram.com/thestateofcreation" target="_blank">Follow @thestateofcreation ↗</a>
-  </section>
-
   <!-- FOOTER -->
   <footer>
     <div class="footer-brand">State of Creation</div>
     <p class="footer-copy">© 2026 Alexa Bush. All rights reserved.</p>
     <ul class="footer-links">
-      <li><a href="#pillars">Philosophy</a></li>
-      <li><a href="#explore">Explore</a></li>
+      <li><a href="#manifesto">Manifesto</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="https://www.instagram.com/thestateofcreation" target="_blank">Instagram</a></li>
     </ul>
@@ -912,7 +588,7 @@
       nav.classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    // Intersection-based fade-in for pillars, areas, about
+    // Intersection-based fade-in for the manifesto lines and the about block
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -922,20 +598,14 @@
       });
     }, { threshold: 0.12 });
 
-    document.querySelectorAll('.pillar-card, .area-card, .manifesto-line, .about-inner').forEach(el => {
+    document.querySelectorAll('.manifesto-line, .about-inner').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(18px)';
       el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
       observer.observe(el);
     });
 
-    // Stagger pillar cards
-    document.querySelectorAll('.pillar-card').forEach((el, i) => {
-      el.style.transitionDelay = `${i * 0.08}s`;
-    });
-    document.querySelectorAll('.area-card').forEach((el, i) => {
-      el.style.transitionDelay = `${i * 0.1}s`;
-    });
+    // Stagger the manifesto lines
     document.querySelectorAll('.manifesto-line').forEach((el, i) => {
       el.style.transitionDelay = `${i * 0.12}s`;
     });
