@@ -763,9 +763,9 @@
           Enter your email and I'll send them straight to your inbox — along with my letters on
           living as the creator of your life.
         </p>
-        <!-- EMAIL FORM: replace this form with the Kit embed code once the Kit form is set up. -->
-        <form class="signup-form" id="signup-form">
-          <input type="text" name="first_name" placeholder="First name" autocomplete="given-name" aria-label="First name" />
+        <!-- Kit form "Free Trackers Signup" (form 10080208). Double opt-in: confirming redirects to /thank-you.html -->
+        <form class="signup-form" id="signup-form" action="https://app.kit.com/forms/10080208/subscriptions" method="post">
+          <input type="text" name="fields[first_name]" placeholder="First name" autocomplete="given-name" aria-label="First name" />
           <input type="email" name="email_address" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
           <button type="submit">Send them to me</button>
         </form>
@@ -804,11 +804,27 @@
     }, { threshold: 0.12 });
 
 
-    // Signup form placeholder until the Kit form is connected
-    document.getElementById('signup-form').addEventListener('submit', (e) => {
+    // Signup: submit to Kit in the background; fall back to a normal post if that fails
+    const signupForm = document.getElementById('signup-form');
+    const signupNote = document.getElementById('signup-note');
+    signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      document.getElementById('signup-note').textContent =
-        'Signup is being connected — check back very soon.';
+      const btn = signupForm.querySelector('button');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(signupForm.action, {
+          method: 'POST',
+          body: new FormData(signupForm),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error(res.status);
+        signupForm.style.display = 'none';
+        signupNote.style.color = 'var(--ink)';
+        signupNote.style.fontSize = '0.9rem';
+        signupNote.textContent = 'Thank you! Check your inbox and confirm your email — your trackers open right after.';
+      } catch (err) {
+        signupForm.submit();
+      }
     });
 
     document.querySelectorAll('.manifesto-line, .about-inner, .tools-grid, .signup').forEach(el => {
