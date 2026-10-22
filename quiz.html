@@ -89,7 +89,9 @@
     .practice p.label { font-family: var(--sans); font-size: 0.65rem; line-height: 1.4; margin-bottom: 0.6rem; }
     .confirm { font-size: 0.88rem; line-height: 1.75; color: var(--brown); margin-bottom: 2.4rem; }
     .confirm b { font-weight: 500; color: var(--ink); }
-    .pillars { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.1rem; padding: 1.6rem 0; border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist); margin-bottom: 2rem; }
+    .pillars { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.1rem; padding: 1.6rem 0; border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist); margin-bottom: 1rem; }
+    .summit { font-size: 0.8rem; color: var(--brown); margin-bottom: 2.2rem; }
+    .summit em { font-family: var(--serif); font-size: 1.05rem; color: var(--ember); }
     .pillars li { font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--stone); }
     .pillars li.you { color: var(--ember); }
     .pillars li.you::after { content: ' ◆'; font-size: 0.6rem; font-style: normal; vertical-align: 2px; }
@@ -159,6 +161,7 @@
         </div>
         <p class="confirm" id="r-confirm"><b>One more step:</b> check your inbox for an email from me and tap the button to confirm — your free trackers open right after. (If it's not there in a few minutes, check Promotions or Spam.)</p>
         <ul class="pillars" id="r-pillars"></ul>
+        <p class="summit">All six pillars lead to <em>Self Mastery</em> — The State of Creation.</p>
         <div class="result-actions">
           <a class="btn" href="/">Explore The State of Creation</a>
           <button class="text-btn" id="retake">Retake the quiz</button>
@@ -171,45 +174,47 @@
   <footer>© 2026 Alexa Bush · <a href="/">thestateofcreation.com</a></footer>
 
   <script>
-    // A Awareness · B Discipline · C Nurturing · D Encouragement · E Trust · F Mastery
+    // A Awareness · B Discipline · C Nurturing · D Encouragement · E Trust · F Expression
+    // Nurturing = compassion and empathy for yourself. Encouragement = pushing yourself forward.
+    // All six lead to Self Mastery, the summit.
     const QUESTIONS = [
       { q: 'When a hard day hits, you usually…', a: {
         A: "Don't notice you're struggling until it's already heavy",
         B: 'Let your routines slip first',
-        C: 'Push through and forget to take care of yourself',
-        D: 'Get hard on yourself for not doing better',
+        C: 'Beat yourself up for not handling it better',
+        D: 'Stall out — you lose momentum and stay stuck',
         E: 'Start second-guessing every decision',
-        F: 'Handle it, but wonder what the next level looks like' } },
+        F: "Keep it to yourself and act like you're fine" } },
       { q: 'The sentence that sounds most like you:', a: {
         A: '“I’m not sure what I actually want.”',
         B: '“I know what to do, I just don’t do it consistently.”',
-        C: '“I give everything to everyone else first.”',
-        D: '“I’m my own worst critic.”',
+        C: '“I’m my own worst critic.”',
+        D: '“I get comfortable and stop pushing myself.”',
         E: '“I wait for permission or a sign.”',
-        F: '“I’m doing well, but I want to go deeper.”' } },
+        F: '“I hold back what I really think so I don’t upset anyone.”' } },
       { q: 'The first hour of your day usually looks like…', a: {
         A: "A blur — I couldn't tell you how I actually felt when I woke up",
         B: 'Depends on the day — some mornings strong, most with no real routine',
-        C: 'Everyone else’s — work, messages and other people’s needs come before mine',
-        D: "A mental list of everything I'm behind on",
+        C: 'Rushed, and already annoyed at myself for not doing more',
+        D: 'The same as always — comfortable, but not moving me toward anything',
         E: 'Scrolling for advice or inspiration from other people',
-        F: 'A ritual that works — I’m ready to take it deeper' } },
+        F: 'Answering everyone else’s messages and requests before I’ve had a thought of my own' } },
       { q: 'What would change your life most this year?', a: {
         A: 'Knowing my purpose',
         B: 'Keeping promises to myself',
-        C: 'Rest without guilt',
-        D: "Believing I'm capable",
+        C: 'Being gentle with myself',
+        D: 'Pushing past my comfort zone',
         E: 'Making a bold decision',
-        F: 'Teaching or leading others' } },
+        F: 'Speaking up for what I want' } },
       { q: 'When you face resistance, you…', a: {
         A: "Don't always recognize it",
         B: 'Avoid it or put it off',
-        C: 'Feel drained by it',
-        D: "Take it as proof you're not enough",
+        C: "Take it as proof you're not enough",
+        D: 'Settle for “good enough” and stop there',
         E: 'Freeze and overthink',
-        F: "Lean in — it's a rep for your spirit" } },
+        F: 'Go quiet and keep the peace' } },
       { q: 'Pick the word you want more of:', words: true, a: {
-        A: 'Clarity', B: 'Consistency', C: 'Peace', D: 'Confidence', E: 'Courage', F: 'Purpose' } }
+        A: 'Clarity', B: 'Consistency', C: 'Compassion', D: 'Momentum', E: 'Courage', F: 'Voice' } }
     ];
 
     const PILLARS = {
@@ -219,18 +224,18 @@
       B: { name: 'Discipline', headline: "You're ready to keep promises to yourself.",
            body: 'You already know what to do. Your edge is doing it consistently — small promises, kept daily, until keeping them becomes who you are. Discipline isn’t punishment; it’s self-respect in action.',
            practice: 'Write one small promise each morning. Tick it off each night. Keep it small enough that you can’t say no.' },
-      C: { name: 'Nurturing', headline: "You're ready to fill your own cup first.",
-           body: 'You give so much. Your edge is turning that care inward — rest, nourishment and boundaries aren’t a reward you earn, they’re the foundation everything else is built on.',
-           practice: 'Protect ten minutes a day that belong only to you. No phone, no one else’s needs — just you.' },
-      D: { name: 'Encouragement', headline: "You're ready to become your own ally.",
-           body: 'Your inner critic has had the microphone long enough. Your edge is learning to speak to yourself like someone you believe in — because the voice in your head becomes the life you live.',
-           practice: 'Each evening, write one success on your Daily Reflection — however small. Read the week back on Sunday.' },
+      C: { name: 'Nurturing', headline: "You're ready to meet yourself with compassion.",
+           body: 'You’d never speak to a friend the way you speak to yourself. Your edge is offering yourself the same empathy you so easily give everyone else — gentleness, rest and forgiveness aren’t weakness, they’re the ground you grow from.',
+           practice: 'When you catch yourself being harsh, pause and ask: what would I say to a friend right now? Then say it to yourself.' },
+      D: { name: 'Encouragement', headline: "You're ready to push yourself forward.",
+           body: 'You have more in you than you’re using. Your edge is becoming your own coach — stretching past comfortable, building momentum, and choosing growth over good enough. Every step forward makes the next one easier.',
+           practice: 'Each evening, write one thing to improve on your Daily Reflection — then make it the first thing you do tomorrow.' },
       E: { name: 'Trust', headline: "You're ready to act before you feel ready.",
            body: 'The answers are already within you. Your edge is acting on them — before the fear quiets, before you feel fully ready. Courage isn’t the absence of fear; it’s moving with it.',
            practice: 'One small brave action a day, taken before you can talk yourself out of it.' },
-      F: { name: 'Mastery', headline: "You're ready to lead from what you've built.",
-           body: 'You’ve built a strong foundation. Your edge is going deeper — living your purpose fully and lighting the way for others. What you’ve learned is meant to be shared.',
-           practice: 'Teach one thing you’ve learned to someone this week — a friend, a sister, a stranger online.' }
+      F: { name: 'Expression', headline: "You're ready to be seen and heard.",
+           body: 'What you think, feel and want matters — and the world needs to hear it. Your edge is using your voice: speaking up, asking for what you want, setting boundaries, and letting people see who you really are.',
+           practice: 'Once a day, say the true thing — share an opinion, ask for what you want, or say no to something you don’t want.' }
     };
     const ORDER = ['A', 'B', 'C', 'D', 'E', 'F'];
 
