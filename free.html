@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Trackers — The State of Creation</title>
-  <meta name="description" content="Two free printable trackers for young women who want to see themselves clearly, find their purpose, and build courage — one day at a time." />
-  <meta property="og:title" content="Free Trackers — The State of Creation" />
-  <meta property="og:description" content="Printable tools to help young women find their purpose, build courage, and become who they're meant to be." />
+  <title>Free Resources — The State of Creation</title>
+  <meta name="description" content="Two free printable trackers for those who want to see themselves clearly, find their purpose, and build courage." />
+  <meta property="og:title" content="Free Resources — The State of Creation" />
+  <meta property="og:description" content="Printable tools to help those finding their purpose and building courage." />
   <meta property="og:image" content="https://thestateofcreation.com/tools/preview-mood-tracker.jpg" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -71,26 +71,25 @@
 </head>
 <body>
   <header>
-    <a href="/">State of Creation</a>
+    <a href="/">The State of Creation</a>
     <a class="back" href="/">Visit the site →</a>
   </header>
 
   <main>
     <div>
-      <p class="label">Free printable trackers</p>
-      <h1>See yourself <em>clearly</em>. Then become.</h1>
-      <p class="lead">Two simple tools for young women who want to find their purpose, build courage, and become who they're meant to be — one honest day at a time, by hand.</p>
+      <p class="label">Free printable resources</p>
+      <h1>Earning the <em>awareness</em> to grow.</h1>
+      <p class="lead">Two simple tools for those who want to find their purpose and build courage.</p>
       <ul class="includes">
         <li><b>The Daily Reflection</b> — one success, one thing to improve. Two weeks on a page.</li>
         <li><b>Mood &amp; Consciousness Tracker</b> — mark your level morning and evening and see what really moves your energy: sleep, water, stress, connection and more.</li>
-        <li><b>Letters from Lex</b> — short notes on courage, purpose and living as the creator of your life.</li>
       </ul>
 
       <!-- Kit form "Free Trackers Signup" (form 10080208). Double opt-in: confirming redirects to /thank-you.html -->
       <form class="signup-form" id="signup-form" action="https://app.kit.com/forms/10080208/subscriptions" method="post">
         <input type="text" name="fields[first_name]" placeholder="First name" autocomplete="given-name" aria-label="First name" />
         <input type="email" name="email_address" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
-        <button type="submit">Send me the trackers</button>
+        <button type="submit">Send!</button>
       </form>
       <p class="note" id="signup-note">Free. No spam. Unsubscribe anytime.</p>
     </div>
@@ -125,7 +124,7 @@
           signupNote.textContent = msgs.some(m => /email/i.test(m))
             ? 'That email address doesn’t look quite right — please check it and try again.'
             : 'Something went wrong — please try again in a moment.';
-          btn.disabled = false; btn.textContent = 'Send me the trackers';
+          btn.disabled = false; btn.textContent = 'Send!';
           return;
         }
         signupForm.style.display = 'none';
