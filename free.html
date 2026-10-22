@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Trackers — The State of Creation</title>
+  <meta name="description" content="Two free printable trackers for young women who want to see themselves clearly, find their purpose, and build courage — one day at a time." />
+  <meta property="og:title" content="Free Trackers — The State of Creation" />
+  <meta property="og:description" content="Printable tools to help young women find their purpose, build courage, and become who they're meant to be." />
+  <meta property="og:image" content="https://thestateofcreation.com/tools/preview-mood-tracker.jpg" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0e0e0e; --cream: #f7f3ee; --warm-white: #fdfaf6;
+      --stone: #b8a99a; --ember: #44bb57; --mist: #d9cfc7;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--warm-white); color: var(--ink); font-family: var(--sans); font-weight: 300; min-height: 100svh; display: flex; flex-direction: column; overflow-x: hidden; }
+    header { padding: 1.4rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    header a { font-family: var(--serif); font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    header .back { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.16em; opacity: 0.6; }
+    header .back:hover { opacity: 1; }
+
+    main { flex: 1; display: grid; grid-template-columns: 1.05fr 1fr; gap: 4rem; align-items: center; max-width: 1120px; width: 100%; margin: 0 auto; padding: 3rem 2rem 5rem; }
+    .label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ember); margin-bottom: 1.4rem; }
+    h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.08; margin-bottom: 1.4rem; }
+    h1 em { font-style: italic; color: var(--ember); }
+    .lead { font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 2vw, 1.3rem); line-height: 1.65; color: #4a4039; margin-bottom: 2rem; max-width: 500px; }
+    .includes { list-style: none; display: grid; gap: 0.9rem; margin-bottom: 2.4rem; }
+    .includes li { font-size: 0.9rem; line-height: 1.7; color: #5a4a40; padding-left: 1.5rem; position: relative; }
+    .includes li::before { content: '◆'; position: absolute; left: 0; top: 0.3rem; font-size: 0.6rem; color: var(--ember); }
+    .includes b { font-weight: 500; color: var(--ink); }
+
+    .signup-form { display: flex; gap: 0.7rem; flex-wrap: wrap; max-width: 520px; }
+    .signup-form input { flex: 1 1 160px; min-width: 0; font: inherit; font-size: 0.9rem; padding: 0.95rem 1.1rem; background: #fff; border: 1px solid var(--mist); color: var(--ink); outline: none; transition: border-color .2s; }
+    .signup-form input:focus { border-color: var(--ember); }
+    .signup-form button { flex: 1 1 100%; font: inherit; font-size: 0.74rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; padding: 1.05rem 1.8rem; background: var(--ink); color: var(--cream); border: 1px solid var(--ink); cursor: pointer; transition: background .2s, border-color .2s; }
+    .signup-form button:hover { background: var(--ember); border-color: var(--ember); }
+    .note { margin-top: 1rem; font-size: 0.74rem; color: var(--stone); min-height: 1.2em; max-width: 520px; }
+
+    .visual { position: relative; display: flex; justify-content: center; align-items: center; min-height: 460px; }
+    .visual::before, .visual::after { content: ''; position: absolute; top: 50%; left: 50%; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: breathe 8s ease-in-out infinite; }
+    .visual::before { width: min(90%, 460px); aspect-ratio: 1; border: 1px solid var(--mist); }
+    .visual::after { width: min(62%, 320px); aspect-ratio: 1; border: 1px solid var(--ember); opacity: .22; animation-direction: reverse; }
+    @keyframes breathe { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.04); } }
+    .sheet { position: absolute; background: #fff; box-shadow: 0 18px 40px rgba(74,64,57,0.18); }
+    .sheet img { display: block; width: 100%; }
+    .sheet-a { width: 62%; transform: rotate(-4deg) translate(-14%, -6%); z-index: 1; }
+    .sheet-b { width: 44%; transform: rotate(5deg) translate(48%, 18%); z-index: 2; }
+
+    .quote { text-align: center; padding: 3.4rem 2rem; background: var(--cream); border-top: 1px solid var(--mist); }
+    .quote p { font-family: var(--serif); font-style: italic; font-size: clamp(1.2rem, 2.6vw, 1.6rem); line-height: 1.5; max-width: 640px; margin: 0 auto; }
+    .quote p em { color: var(--ember); }
+    .quote span { display: block; margin-top: 1rem; font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--stone); }
+    footer { background: var(--ink); color: rgba(247,243,238,0.5); padding: 1.8rem 2rem; font-size: 0.7rem; letter-spacing: 0.08em; text-align: center; }
+    footer a { color: rgba(247,243,238,0.75); }
+
+    @media (max-width: 860px) {
+      header { padding: 1.2rem 1.4rem; }
+      main { grid-template-columns: 1fr; gap: 1rem; padding: 1rem 1.4rem 4rem; }
+      .visual { order: -1; min-height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">State of Creation</a>
+    <a class="back" href="/">Visit the site →</a>
+  </header>
+
+  <main>
+    <div>
+      <p class="label">Free printable trackers</p>
+      <h1>See yourself <em>clearly</em>. Then become.</h1>
+      <p class="lead">Two simple tools for young women who want to find their purpose, build courage, and become who they're meant to be — one honest day at a time, by hand.</p>
+      <ul class="includes">
+        <li><b>The Daily Reflection</b> — one success, one thing to improve. Two weeks on a page.</li>
+        <li><b>Mood &amp; Consciousness Tracker</b> — mark your level morning and evening and see what really moves your energy: sleep, water, stress, connection and more.</li>
+        <li><b>Letters from Lex</b> — short notes on courage, purpose and living as the creator of your life.</li>
+      </ul>
+
+      <!-- Kit form "Free Trackers Signup" (form 10080208). Double opt-in: confirming redirects to /thank-you.html -->
+      <form class="signup-form" id="signup-form" action="https://app.kit.com/forms/10080208/subscriptions" method="post">
+        <input type="text" name="fields[first_name]" placeholder="First name" autocomplete="given-name" aria-label="First name" />
+        <input type="email" name="email_address" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+        <button type="submit">Send me the trackers</button>
+      </form>
+      <p class="note" id="signup-note">Free. No spam. Unsubscribe anytime.</p>
+    </div>
+
+    <div class="visual" aria-hidden="true">
+      <div class="sheet sheet-a"><img src="tools/preview-mood-tracker.jpg" alt=""></div>
+      <div class="sheet sheet-b"><img src="tools/preview-daily-reflection.jpg" alt=""></div>
+    </div>
+  </main>
+
+  <section class="quote">
+    <p>Here we experience life in a new way — <em>where resistance is a rep for our spirit.</em></p>
+    <span>The State of Creation</span>
+  </section>
+
+  <footer>© 2026 Alexa Bush · <a href="/">thestateofcreation.com</a></footer>
+
+  <script>
+    const signupForm = document.getElementById('signup-form');
+    const signupNote = document.getElementById('signup-note');
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = signupForm.querySelector('button');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(signupForm.action, { method: 'POST', body: new FormData(signupForm), headers: { 'Accept': 'application/json' } });
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        if (data.status !== 'success') {
+          const msgs = (data.errors && data.errors.messages) || [];
+          signupNote.style.color = '#b0413e';
+          signupNote.textContent = msgs.some(m => /email/i.test(m))
+            ? 'That email address doesn’t look quite right — please check it and try again.'
+            : 'Something went wrong — please try again in a moment.';
+          btn.disabled = false; btn.textContent = 'Send me the trackers';
+          return;
+        }
+        signupForm.style.display = 'none';
+        signupNote.style.color = 'var(--ink)';
+        signupNote.style.fontSize = '0.95rem';
+        signupNote.textContent = 'Thank you! Check your inbox for an email from me and tap the button to confirm — your trackers open right after. (If it’s not there in a few minutes, check Promotions or Spam.)';
+      } catch (err) {
+        signupForm.submit();
+      }
+    });
+  </script>
+</body>
+</html>
