@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" /><!-- hidden while in workshop: remove this line when the quiz is ready to share -->
   <title>Which Pillar Is Calling You? — The State of Creation</title>
   <meta name="description" content="A six-question quiz to find which of the six Self pillars is your growth edge right now — and one practice to start today." />
   <meta property="og:title" content="Which pillar is calling you right now?" />
@@ -47,6 +46,9 @@
     h1 em, h2 em { font-style: italic; color: var(--ember); }
     .lead { font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 2.2vw, 1.3rem); line-height: 1.65; color: #4a4039; margin-bottom: 2.2rem; }
     .center { text-align: center; }
+    .beta-tag { display: inline-block; margin-left: 0.5rem; padding: 0.12rem 0.5rem; font-size: 0.58rem; letter-spacing: 0.16em; color: var(--ember); border: 1px solid var(--ember); border-radius: 999px; vertical-align: 1px; }
+    .beta-note { margin: 2.4rem auto 0; max-width: 440px; font-size: 0.78rem; line-height: 1.7; color: var(--brown); }
+    .beta-note a { color: var(--ink); }
 
     .btn { display: inline-block; font: inherit; font-size: 0.74rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; padding: 1.05rem 2.2rem; background: var(--ink); color: var(--cream); border: 1px solid var(--ink); cursor: pointer; text-decoration: none; transition: background .2s, border-color .2s; }
     .btn:hover { background: var(--ember); border-color: var(--ember); }
@@ -118,11 +120,12 @@
 
       <!-- INTRO -->
       <section class="screen active center" id="intro">
-        <p class="label">Free quiz</p>
+        <p class="label">Free quiz <span class="beta-tag">Beta</span></p>
         <h1>Which pillar is <em>calling</em> you right now?</h1>
         <p class="lead">Six questions. Two minutes. Discover your growth edge among the six pillars of Self — and one practice to begin today.</p>
         <button class="btn" id="start">Begin</button>
         <p class="meta">Answer with your first instinct — there are no wrong answers.</p>
+        <p class="beta-note">This quiz is in beta — I’m still shaping it, and your feedback helps. Tell me what landed and what didn’t: <a href="mailto:lex@thestateofcreation.com?subject=Pillar%20quiz%20feedback">lex@thestateofcreation.com</a></p>
       </section>
 
       <!-- QUESTION -->
@@ -166,6 +169,7 @@
           <a class="btn" href="/">Explore The State of Creation</a>
           <button class="text-btn" id="retake">Retake the quiz</button>
         </div>
+        <p class="beta-note">Beta — does your result feel true? I’d love to hear: <a href="mailto:lex@thestateofcreation.com?subject=Pillar%20quiz%20feedback">lex@thestateofcreation.com</a></p>
       </section>
 
     </div>
