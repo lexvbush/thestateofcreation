@@ -710,7 +710,7 @@
         <span class="section-label">About Alexa</span>
         <h2 class="about-title">A fellow<br><em>traveler</em>,<br>not a teacher.</h2>
         <p class="about-body">
-          The State of Creation is a physical state of being where we tap into the energy needed to create our lives from a place of courage. <br> I created this concept because I believe the courage it takes to face resistance on our journey to our next phase is exactly what makes us strong enough to get there. There is so much momentum and energy in consistent compounding action. We simply need to become conscious enough to realize that the resistance is an opportunity for growth.
+          The State of Creation is a physical state of being where we tap into the energy needed to create our lives from a place of courage. <br> I created this concept because I believe the courage it takes to face resistance on the journey to our next phase serves a purpose: it is what makes us strong enough to get there. There is so much momentum and energy in consistent compounding action. We simply need to become conscious enough to realize that the resistance is an opportunity for growth.
         </p>
         <p class="about-body">
           I am with you. We are here together. Let's get to work.
@@ -821,10 +821,21 @@
           headers: { 'Accept': 'application/json' }
         });
         if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        if (data.status !== 'success') {
+          // Kit answers 200 even when it rejects a signup; show its reason instead of a false thank-you
+          const msgs = (data.errors && data.errors.messages) || [];
+          signupNote.style.color = '#b0413e';
+          signupNote.textContent = msgs.some(m => /email/i.test(m))
+            ? 'That email address doesn’t look quite right — please check it and try again.'
+            : 'Something went wrong — please try again in a moment.';
+          btn.disabled = false; btn.textContent = 'Send them to me';
+          return;
+        }
         signupForm.style.display = 'none';
         signupNote.style.color = 'var(--ink)';
         signupNote.style.fontSize = '0.9rem';
-        signupNote.textContent = 'Thank you! Check your inbox and confirm your email — your trackers open right after.';
+        signupNote.textContent = 'Thank you! Check your inbox for an email from me and tap the button to confirm — your trackers open right after. (If it’s not there in a few minutes, check Promotions or Spam.)';
       } catch (err) {
         signupForm.submit();
       }
