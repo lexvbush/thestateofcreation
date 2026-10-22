@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>State of Creation — Alexa Bush</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -707,7 +710,7 @@
         <span class="section-label">About Alexa</span>
         <h2 class="about-title">A fellow<br><em>traveler</em>,<br>not a teacher.</h2>
         <p class="about-body">
-          The State of Creation is a physical state of being where we tap into the energy needed to create our lives from a place of courage. <br> I produced this concept because I believe that the courage we need to face the resistance of getting to the next level is what trains us to be strong enough to get there. There is so much momentum and energy in consistent compounding action. We simply need to become conscious enough to realize that the resistance is an opportunity for growth.
+          The State of Creation is a physical state of being where we tap into the energy needed to create our lives from a place of courage. <br> I created this concept because I believe the courage it takes to face resistance on the journey to our next phase serves a purpose: it is what makes us strong enough to get there. There is so much momentum and energy in consistent compounding action. We simply need to become conscious enough to realize that the resistance is an opportunity for growth.
         </p>
         <p class="about-body">
           I am with you. We are here together. Let's get to work.
@@ -818,10 +821,21 @@
           headers: { 'Accept': 'application/json' }
         });
         if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        if (data.status !== 'success') {
+          // Kit answers 200 even when it rejects a signup; show its reason instead of a false thank-you
+          const msgs = (data.errors && data.errors.messages) || [];
+          signupNote.style.color = '#b0413e';
+          signupNote.textContent = msgs.some(m => /email/i.test(m))
+            ? 'That email address doesn’t look quite right — please check it and try again.'
+            : 'Something went wrong — please try again in a moment.';
+          btn.disabled = false; btn.textContent = 'Send them to me';
+          return;
+        }
         signupForm.style.display = 'none';
         signupNote.style.color = 'var(--ink)';
         signupNote.style.fontSize = '0.9rem';
-        signupNote.textContent = 'Thank you! Check your inbox and confirm your email — your trackers open right after.';
+        signupNote.textContent = 'Thank you! Check your inbox for an email from me and tap the button to confirm — your trackers open right after. (If it’s not there in a few minutes, check Promotions or Spam.)';
       } catch (err) {
         signupForm.submit();
       }
