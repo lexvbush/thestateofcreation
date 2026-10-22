@@ -428,6 +428,149 @@
     }
     .about-cta:hover { color: var(--ember); border-color: var(--ember); }
 
+
+    /* ── FREE TOOLS ── */
+    .tools {
+      padding: 8rem 2rem;
+      background: var(--warm-white);
+      border-top: 1px solid var(--mist);
+    }
+    .tools-inner { max-width: 1100px; margin: 0 auto; }
+    .tools-head { text-align: center; max-width: 640px; margin: 0 auto 4.5rem; }
+    .tools-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1.6rem;
+    }
+    .tools-title em { font-style: italic; color: var(--ember); }
+    .tools-intro {
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.7;
+      color: #4a4039;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .tool-frame {
+      aspect-ratio: 4 / 3;
+      background: var(--cream);
+      border: 1px solid var(--mist);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.6rem;
+      margin-bottom: 1.8rem;
+    }
+    .tool-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      box-shadow: 0 10px 30px rgba(74,64,57,0.14);
+    }
+    .tool-kicker {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 0.7rem;
+    }
+    .tool-name {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 400;
+      margin-bottom: 0.9rem;
+    }
+    .tool-desc {
+      font-size: 0.88rem;
+      line-height: 1.9;
+      color: #5a4a40;
+    }
+    .tool-credit {
+      margin-top: 0.8rem;
+      font-size: 0.72rem;
+      color: var(--stone);
+      font-style: italic;
+    }
+
+    .signup {
+      margin: 5.5rem auto 0;
+      max-width: 720px;
+      background: var(--cream);
+      border: 1px solid var(--mist);
+      padding: 3.2rem 2.4rem;
+      text-align: center;
+      position: relative;
+    }
+    .signup::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 2px;
+      background: var(--ember);
+    }
+    .signup-title {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+    .signup-title em { font-style: italic; color: var(--ember); }
+    .signup-sub {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #5a4a40;
+      margin-bottom: 2rem;
+    }
+    .signup-form {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .signup-form input {
+      flex: 1 1 180px;
+      min-width: 0;
+      font: inherit;
+      font-size: 0.9rem;
+      padding: 0.95rem 1.1rem;
+      background: var(--warm-white);
+      border: 1px solid var(--mist);
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .signup-form input:focus { border-color: var(--ember); }
+    .signup-form button {
+      flex: 0 0 auto;
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.95rem 1.8rem;
+      background: var(--ink);
+      color: var(--cream);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .signup-form button:hover { background: var(--ember); border-color: var(--ember); }
+    .signup-note {
+      margin-top: 1.2rem;
+      font-size: 0.72rem;
+      color: var(--stone);
+      min-height: 1.2em;
+    }
+
     /* ── FOOTER ── */
     footer {
       background: var(--ink);
@@ -471,6 +614,9 @@
       .nav-links { gap: 1.4rem; }
       .about-inner { grid-template-columns: 1fr; gap: 3.5rem; }
       .about-visual { max-width: 360px; }
+      .tools { padding: 6rem 1.6rem; }
+      .tools-grid { grid-template-columns: 1fr; gap: 4rem; }
+      .signup { padding: 2.6rem 1.4rem; }
       footer { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
     }
@@ -487,6 +633,7 @@
     <ul class="nav-links">
       <li><a href="#manifesto">Manifesto</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#tools">Free Tools</a></li>
       <li><a href="https://www.instagram.com/thestateofcreation" target="_blank">Instagram</a></li>
     </ul>
   </nav>
@@ -570,6 +717,63 @@
     </div>
   </section>
 
+  <!-- FREE TOOLS -->
+  <section class="tools" id="tools">
+    <div class="tools-inner">
+      <div class="tools-head">
+        <span class="section-label">Free Tools</span>
+        <h2 class="tools-title">Awareness <em>comes first</em>.</h2>
+        <p class="tools-intro">
+          Changing your thoughts is essential — but before that, you must become aware of them.
+          These printable trackers help you see yourself clearly, one day at a time, by hand.
+        </p>
+      </div>
+
+      <div class="tools-grid">
+        <article class="tool">
+          <div class="tool-frame">
+            <img src="tools/preview-daily-reflection.jpg" alt="The Daily Reflection printable: two weeks of Success and Improve lines on a dot grid" loading="lazy" />
+          </div>
+          <p class="tool-kicker">Printable · 1 page</p>
+          <h3 class="tool-name">The Daily Reflection</h3>
+          <p class="tool-desc">
+            One success. One thing to improve. Two weeks on a single page, on a dot grid made for handwriting.
+            A few minutes each evening to honor how far you've come and choose where to grow next.
+          </p>
+        </article>
+
+        <article class="tool">
+          <div class="tool-frame">
+            <img src="tools/preview-mood-tracker.jpg" alt="The Mood and Consciousness Tracker printable: a two-week chart of consciousness levels with daily inputs below" loading="lazy" />
+          </div>
+          <p class="tool-kicker">Printable · 2 weeks per sheet</p>
+          <h3 class="tool-name">Mood &amp; Consciousness Tracker</h3>
+          <p class="tool-desc">
+            Mark your level morning and evening, then note what shaped your day: sleep, water, stress,
+            connection and more. Hang the sheets side by side and watch your graph grow across the wall —
+            and see what really moves your energy, with compassion for the days that aren't perfect.
+          </p>
+          <p class="tool-credit">Inspired by David R. Hawkins' Map of Consciousness.</p>
+        </article>
+      </div>
+
+      <div class="signup">
+        <h3 class="signup-title">Get both trackers <em>free</em></h3>
+        <p class="signup-sub">
+          Enter your email and I'll send them straight to your inbox — along with my letters on
+          living as the creator of your life.
+        </p>
+        <!-- EMAIL FORM: replace this form with the Kit embed code once the Kit form is set up. -->
+        <form class="signup-form" id="signup-form">
+          <input type="text" name="first_name" placeholder="First name" autocomplete="given-name" aria-label="First name" />
+          <input type="email" name="email_address" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+          <button type="submit">Send them to me</button>
+        </form>
+        <p class="signup-note" id="signup-note">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-brand">State of Creation</div>
@@ -577,6 +781,7 @@
     <ul class="footer-links">
       <li><a href="#manifesto">Manifesto</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#tools">Free Tools</a></li>
       <li><a href="https://www.instagram.com/thestateofcreation" target="_blank">Instagram</a></li>
     </ul>
   </footer>
@@ -598,7 +803,15 @@
       });
     }, { threshold: 0.12 });
 
-    document.querySelectorAll('.manifesto-line, .about-inner').forEach(el => {
+
+    // Signup form placeholder until the Kit form is connected
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('signup-note').textContent =
+        'Signup is being connected — check back very soon.';
+    });
+
+    document.querySelectorAll('.manifesto-line, .about-inner, .tools-grid, .signup').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(18px)';
       el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
