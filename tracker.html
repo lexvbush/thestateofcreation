@@ -17,7 +17,7 @@
       --stone: #b8a99a; --ember: #44bb57; --mist: #d9cfc7; --line: #8f8174;
       --serif: 'Cormorant Garamond', Georgia, serif;
       --sans: 'DM Sans', sans-serif;
-      --label: 200px; --day: 64px;
+      --label: 200px; --day: 64px; --days: 7; --pad: 16px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--warm-white); color: var(--ink); font-family: var(--sans); font-weight: 300; min-height: 100svh; display: flex; flex-direction: column; }
@@ -55,12 +55,12 @@
 
     /* the sheet */
     .sheet-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; background: #fff; border: 1px solid var(--mist); border-radius: 18px; box-shadow: 0 14px 36px rgba(74,64,57,0.08); }
-    .sheet { width: calc(var(--label) + 14 * var(--day) + 32px); padding: 22px 16px 26px; }
+    .sheet { width: calc(var(--label) + var(--days) * var(--day) + 2 * var(--pad)); padding: 22px var(--pad) 26px; margin: 0 auto; }
     .sheet-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
     .sheet-title .brand { font-family: var(--serif); font-size: 1.7rem; color: var(--ember); }
     .sheet-title .brand em { font-style: italic; }
     .sheet-title .sub { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: #4a4039; }
-    .row { display: grid; grid-template-columns: var(--label) repeat(14, var(--day)); align-items: center; }
+    .row { display: grid; grid-template-columns: var(--label) repeat(var(--days), var(--day)); align-items: center; }
     .weeks .cell { grid-column: span 7; text-align: center; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: #4a4039; padding: 4px 0; }
     .weeks .cell b { font-weight: 400; color: var(--ink); letter-spacing: 0.08em; }
     .dates .head, .factor .name { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #4a4039; padding-left: 26px; }
@@ -92,9 +92,17 @@
     .dots button:hover { border-color: var(--ember); }
     .future-cell { opacity: 0.3; pointer-events: none; }
     .day-input { font: inherit; font-size: 0.66rem; width: 54px; margin: 0 5px; border: 0; border-bottom: 1px dotted var(--line); background: transparent; text-align: center; color: var(--ink); }
-    .notes textarea { font: inherit; font-size: 0.64rem; line-height: 1.4; width: 58px; height: 46px; margin: 4px 3px; border: 1px dotted var(--mist); border-radius: 10px; background: transparent; resize: none; color: var(--ink); padding: 4px; }
+    .notes textarea { font: inherit; font-size: 0.64rem; line-height: 1.4; width: calc(100% - 8px); height: 46px; margin: 4px 3px; border: 1px dotted var(--mist); border-radius: 10px; background: transparent; resize: none; color: var(--ink); padding: 4px; }
     .factor.notes { height: auto; border-bottom: 1px solid var(--mist); }
-    .scroll-hint { display: none; text-align: center; font-size: 0.7rem; color: var(--stone); margin: 0 0 0.8rem; }
+    /* phone: three days at a time */
+    .phone .weeks, .phone .levels .val { display: none; }
+    .phone .sheet-title { flex-direction: column; gap: 2px; }
+    .phone .levels .lv, .phone .dates .head, .phone .factor .name { padding-left: 20px; }
+    .phone .levels .lv { font-size: 0.54rem; gap: 4px; letter-spacing: 0.02em; }
+    .phone .levels .chip { width: 7px; height: 7px; }
+    .phone .factor .name { font-size: 0.54rem; letter-spacing: 0.06em; line-height: 1.25; padding-right: 4px; }
+    .phone .day-input { width: calc(100% - 10px); }
+    .phone .notes textarea { height: 60px; }
     .save-row { display: flex; justify-content: center; align-items: center; gap: 1.4rem; flex-wrap: wrap; margin-top: 1.6rem; }
 
     /* journey */
@@ -127,13 +135,7 @@
     footer { background: var(--ink); color: rgba(247,243,238,0.5); padding: 1.8rem 2rem; font-size: 0.7rem; letter-spacing: 0.08em; text-align: center; }
     footer a { color: rgba(247,243,238,0.75); }
     @media (max-width: 860px) {
-      :root { --label: 150px; }
       header { padding: 1.2rem 1.4rem; }
-      .scroll-hint { display: block; }
-      /* keep the row names in view while swiping through the days */
-      .row > :first-child, .levels { position: sticky; left: 0; z-index: 2; background: #fff; }
-      .row > :first-child { align-self: stretch; display: flex; align-items: center; }
-      .factor.notes > :first-child { align-items: flex-start; padding-top: 8px; }
       .levels .lv { gap: 5px; letter-spacing: 0.06em; }
       .factor .name { line-height: 1.25; padding-right: 6px; }
       .stats { grid-template-columns: repeat(2, 1fr); }
@@ -162,19 +164,18 @@
 
     <div class="viewbar">
       <div class="nav">
-        <button class="round" id="prev" aria-label="Earlier week">‹</button>
+        <button class="round" id="prev" aria-label="Previous week">‹</button>
         <span class="range-label" id="rangeLabel"></span>
-        <button class="round" id="next" aria-label="Later week">›</button>
+        <button class="round" id="next" aria-label="Next week">›</button>
         <button class="text-btn" id="toToday">Today</button>
       </div>
       <span class="status" id="status" role="status" aria-live="polite"></span>
     </div>
 
-    <p class="scroll-hint">Swipe sideways to see all 14 days →</p>
     <div class="sheet-wrap" id="sheetWrap">
       <div class="sheet" id="sheet">
         <div class="sheet-title"><span class="brand">The <em>State</em> of Creation</span><span class="sub">Mood &amp; Consciousness</span></div>
-        <div class="row weeks"><div></div><div class="cell">Week of <b id="wk0"></b></div><div class="cell">Week of <b id="wk1"></b></div></div>
+        <div class="row weeks"><div></div><div class="cell">Week of <b id="wk0"></b></div></div>
         <div class="row dates" id="dates"><div class="head">Date</div></div>
         <div class="row" id="ampm"><div></div></div>
         <div class="chart">
@@ -188,7 +189,7 @@
 
     <div class="save-row">
       <button class="btn" id="save">Save my day</button>
-      <button class="text-btn" id="clear">Clear these two weeks</button>
+      <button class="text-btn" id="clear">Clear this week</button>
     </div>
 
     <section class="journey" id="journey">
@@ -244,7 +245,8 @@
   <footer>© 2026 Alexa Bush · <a href="/">thestateofcreation.com</a></footer>
 
   <script>
-    const DAYS = 14, ROW = 24, DAYW = 64;
+    let DAYS = 7, DAYW = 64;              // one week on a computer, three days on a phone
+    const ROW = 24;
     const LEVELS = [['Enlightenment','700+','#8E44AD'],['Peace','600','#6C5CE7'],['Joy','540','#3F7FD8'],['Love','500','#2FA4D9'],
       ['Reason','400','#1FA39A'],['Acceptance','350','#44BB57'],['Willingness','310','#8CC63F'],['Neutrality','250','#E3C93B'],
       ['Courage','200','#F2A93B'],['Pride','175','#EE8A2E'],['Anger','150','#E5612B'],['Desire','125','#D63A2F'],
@@ -267,7 +269,9 @@
     const today = () => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); };
     const mondayOf = d => addDays(d, -((d.getDay() + 6) % 7));
     const fmt = (d, o) => d.toLocaleDateString('en-US', o);
-    const defaultStart = () => addDays(mondayOf(today()), -7);   // last week + this week
+    const isPhone = () => window.innerWidth < 720;
+    let phone = isPhone();
+    const defaultStart = () => phone ? addDays(today(), -2) : mondayOf(today());
     let start = defaultStart(), cols = [];
 
     /* ---------- storage (this device only) ---------- */
@@ -294,34 +298,103 @@
     const changed = () => { persist(); journey(); };
     const isFuture = d => cols[d] > iso(today());
 
-    /* ---------- build the sheet ---------- */
-    const dateEls = [];
-    for (let d = 0; d < DAYS; d++) {
-      const c = document.createElement('div'); c.className = 'date'; $('dates').appendChild(c); dateEls.push(c);
-      const a = document.createElement('div'); a.className = 'ampm'; a.innerHTML = '<span>AM</span><span>PM</span>'; $('ampm').appendChild(a);
-    }
+    /* ---------- the sheet ---------- */
     LEVELS.forEach(([name, val, col]) => {
       const el = document.createElement('div'); el.className = 'lv';
       el.innerHTML = `<span class="chip" style="background:${col}"></span>${name}<span class="val">${val}</span>`;
       $('levels').appendChild(el);
     });
-
-    const plot = $('plot'), W = DAYS * DAYW, H = LEVELS.length * ROW, NS = 'http://www.w3.org/2000/svg';
-    plot.setAttribute('width', W); plot.setAttribute('height', H); plot.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const plot = $('plot'), H = LEVELS.length * ROW, NS = 'http://www.w3.org/2000/svg';
+    let W = 0, colLayer, dotLayer, sizes = [8, 10, 12, 14];
     const mk = (tag, attrs, parent = plot) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
-    const defs = mk('defs', {}), grad = mk('linearGradient', { id: 'wash', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
-    LEVELS.forEach(([, , col], k) => mk('stop', { offset: (k + 0.5) / LEVELS.length, 'stop-color': col, 'stop-opacity': 0.16 }, grad));
-    mk('rect', { x: 0, y: 0, width: W, height: H, rx: 12, fill: 'url(#wash)' });
-    const colLayer = mk('g', {});
-    for (let d = 0; d <= DAYS; d++) mk('line', { x1: d * DAYW, x2: d * DAYW, y1: 0, y2: H, stroke: d === 7 ? '#b8a99a' : '#e4ddd6', 'stroke-width': d === 7 ? 1 : 0.75, 'stroke-dasharray': d % 7 ? '2 4' : '' });
-    for (let k = 0; k < LEVELS.length; k++) for (let s = 0; s < DAYS * 2; s++) mk('circle', { cx: slotX(s), cy: k * ROW + ROW / 2, r: 1.3, fill: '#8f8174' });
-    const dotLayer = mk('g', {});
+    const SHADES = ['#E8CB3F', '#BFC746', '#86BF4E', '#44BB57'];
+    let dateEls = [], cells = {}, cycleIns = [], noteIns = [], customInputs = [];
+
+    function ratingCell(key, d) {
+      const c = document.createElement('div'); c.className = 'dots';
+      const btns = sizes.map((sz, i) => {
+        const b = document.createElement('button'); b.type = 'button'; b.style.width = b.style.height = sz + 'px'; b.style.setProperty('--c', SHADES[i]);
+        b.setAttribute('aria-label', ['A little', 'Some', 'A lot', 'A great deal'][i]);
+        b.addEventListener('click', () => {
+          const entry = getDay(cols[d]); const cur = entry.f[key] || 0, v = cur === i + 1 ? 0 : i + 1;
+          if (v) entry.f[key] = v; else delete entry.f[key];
+          set(v); changed();
+        });
+        c.appendChild(b); return b;
+      });
+      const set = v => btns.forEach((x, j) => x.classList.toggle('on', j < v));
+      return { el: c, set };
+    }
+
+    function build() {
+      phone = isPhone(); DAYS = phone ? 3 : 7;
+      document.body.classList.toggle('phone', phone);
+      const label = phone ? 116 : 200, pad = phone ? 10 : 16;
+      DAYW = Math.floor(Math.max(52, Math.min(120, ($('sheetWrap').clientWidth - label - 2 * pad - 4) / DAYS)));
+      sizes = DAYW >= 100 ? [12, 15, 18, 21] : DAYW < 62 ? [7, 9, 11, 13] : [8, 10, 12, 14];
+      const rs = document.documentElement.style;
+      rs.setProperty('--label', label + 'px'); rs.setProperty('--day', DAYW + 'px'); rs.setProperty('--days', DAYS); rs.setProperty('--pad', pad + 'px');
+
+      // date + AM/PM headers
+      $('dates').innerHTML = '<div class="head">Date</div>'; $('ampm').innerHTML = '<div></div>'; dateEls = [];
+      for (let d = 0; d < DAYS; d++) {
+        const c = document.createElement('div'); c.className = 'date'; $('dates').appendChild(c); dateEls.push(c);
+        const a = document.createElement('div'); a.className = 'ampm'; a.innerHTML = '<span>AM</span><span>PM</span>'; $('ampm').appendChild(a);
+      }
+
+      // chart
+      W = DAYS * DAYW; plot.innerHTML = '';
+      plot.setAttribute('width', W); plot.setAttribute('height', H); plot.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const defs = mk('defs', {}), grad = mk('linearGradient', { id: 'wash', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+      LEVELS.forEach(([, , col], k) => mk('stop', { offset: (k + 0.5) / LEVELS.length, 'stop-color': col, 'stop-opacity': 0.16 }, grad));
+      mk('rect', { x: 0, y: 0, width: W, height: H, rx: 12, fill: 'url(#wash)' });
+      colLayer = mk('g', {});
+      for (let d = 1; d < DAYS; d++) mk('line', { x1: d * DAYW, x2: d * DAYW, y1: 0, y2: H, stroke: '#e4ddd6', 'stroke-width': 0.75, 'stroke-dasharray': '2 4' });
+      for (let k = 0; k < LEVELS.length; k++) for (let s = 0; s < DAYS * 2; s++) mk('circle', { cx: slotX(s), cy: k * ROW + ROW / 2, r: 1.3, fill: '#8f8174' });
+      dotLayer = mk('g', {});
+
+      // inputs
+      const F = $('factors'); F.innerHTML = ''; cells = {}; customInputs = []; cycleIns = []; noteIns = [];
+      GROUPS.forEach(([gname, rows]) => {
+        const g = document.createElement('div'); g.className = 'group';
+        if (gname) g.innerHTML = `<div class="side"><span>${gname}</span></div>`;
+        rows.forEach((key, ri) => {
+          const row = document.createElement('div'); row.className = 'row factor' + (ri === 0 ? ' brk' : '');
+          const lab = document.createElement('div'); lab.className = 'name';
+          if (key.startsWith('__c')) {
+            const i = +key.slice(3), inp = document.createElement('input');
+            inp.type = 'text'; inp.placeholder = 'Your own…'; inp.setAttribute('aria-label', 'Your own input');
+            inp.addEventListener('input', () => { db.custom[i] = inp.value; persistSoon(); });
+            lab.appendChild(inp); customInputs[i] = inp;
+          } else lab.textContent = key;
+          row.appendChild(lab);
+          cells[key] = [];
+          for (let d = 0; d < DAYS; d++) { const rc = ratingCell(key, d); row.appendChild(rc.el); cells[key].push(rc); }
+          g.appendChild(row);
+        });
+        F.appendChild(g);
+      });
+      const cyc = document.createElement('div'); cyc.className = 'row factor brk';
+      cyc.innerHTML = '<div class="name">Cycle day</div>';
+      const notes = document.createElement('div'); notes.className = 'row factor notes brk';
+      notes.innerHTML = '<div class="name">Notes</div>';
+      for (let d = 0; d < DAYS; d++) {
+        const ci = document.createElement('input'); ci.className = 'day-input'; ci.type = 'text'; ci.setAttribute('aria-label', `Cycle day, column ${d + 1}`);
+        ci.addEventListener('input', () => { getDay(cols[d]).cycle = ci.value.trim(); persistSoon(); });
+        const cw = document.createElement('div'); cw.appendChild(ci); cyc.appendChild(cw); cycleIns.push(ci);
+        const ta = document.createElement('textarea'); ta.setAttribute('aria-label', `Notes, column ${d + 1}`);
+        ta.addEventListener('input', () => { getDay(cols[d]).notes = ta.value; persistSoon(); });
+        const tw = document.createElement('div'); tw.appendChild(ta); notes.appendChild(tw); noteIns.push(ta);
+      }
+      F.appendChild(cyc); F.appendChild(notes);
+    }
 
     function draw() {
       dotLayer.innerHTML = ''; colLayer.innerHTML = '';
+      const rx = Math.min(26, DAYW / 2 - 3);
       cols.forEach((key, d) => {
-        if (key === iso(today())) mk('rect', { x: d * DAYW + 3, y: 3, width: DAYW - 6, height: H - 6, rx: 26, fill: '#44bb57', 'fill-opacity': 0.08 }, colLayer);
-        else if (isFuture(d)) mk('rect', { x: d * DAYW + 3, y: 3, width: DAYW - 6, height: H - 6, rx: 26, fill: '#fff', 'fill-opacity': 0.6 }, colLayer);
+        if (key === iso(today())) mk('rect', { x: d * DAYW + 3, y: 3, width: DAYW - 6, height: H - 6, rx, fill: '#44bb57', 'fill-opacity': 0.08 }, colLayer);
+        else if (isFuture(d)) mk('rect', { x: d * DAYW + 3, y: 3, width: DAYW - 6, height: H - 6, rx, fill: '#fff', 'fill-opacity': 0.6 }, colLayer);
         const e = db.days[key]; if (!e) return;
         ['am', 'pm'].forEach((p, i) => {
           if (e[p] == null) return;
@@ -341,68 +414,17 @@
       draw(); changed();
     });
 
-    // input ratings
-    const SIZES = [8, 10, 12, 14], SHADES = ['#E8CB3F', '#BFC746', '#86BF4E', '#44BB57'];
-    const cells = {};   // key -> [{el, set}] per column
-    function ratingCell(key, d) {
-      const c = document.createElement('div'); c.className = 'dots';
-      const btns = SIZES.map((sz, i) => {
-        const b = document.createElement('button'); b.type = 'button'; b.style.width = b.style.height = sz + 'px'; b.style.setProperty('--c', SHADES[i]);
-        b.setAttribute('aria-label', ['A little', 'Some', 'A lot', 'A great deal'][i]);
-        b.addEventListener('click', () => {
-          const entry = getDay(cols[d]); const cur = entry.f[key] || 0, v = cur === i + 1 ? 0 : i + 1;
-          if (v) entry.f[key] = v; else delete entry.f[key];
-          set(v); changed();
-        });
-        c.appendChild(b); return b;
-      });
-      const set = v => btns.forEach((x, j) => x.classList.toggle('on', j < v));
-      return { el: c, set };
-    }
-    const F = $('factors'), customInputs = [];
-    GROUPS.forEach(([gname, rows]) => {
-      const g = document.createElement('div'); g.className = 'group';
-      if (gname) g.innerHTML = `<div class="side"><span>${gname}</span></div>`;
-      rows.forEach((key, ri) => {
-        const row = document.createElement('div'); row.className = 'row factor' + (ri === 0 ? ' brk' : '');
-        const lab = document.createElement('div'); lab.className = 'name';
-        if (key.startsWith('__c')) {
-          const i = +key.slice(3), inp = document.createElement('input');
-          inp.type = 'text'; inp.placeholder = 'Your own…'; inp.setAttribute('aria-label', 'Your own input');
-          inp.addEventListener('input', () => { db.custom[i] = inp.value; persistSoon(); });
-          lab.appendChild(inp); customInputs[i] = inp;
-        } else lab.textContent = key;
-        row.appendChild(lab);
-        cells[key] = [];
-        for (let d = 0; d < DAYS; d++) { const rc = ratingCell(key, d); row.appendChild(rc.el); cells[key].push(rc); }
-        g.appendChild(row);
-      });
-      F.appendChild(g);
-    });
-    const cycleIns = [], noteIns = [];
-    const cyc = document.createElement('div'); cyc.className = 'row factor brk';
-    cyc.innerHTML = '<div class="name">Cycle day</div>';
-    const notes = document.createElement('div'); notes.className = 'row factor notes brk';
-    notes.innerHTML = '<div class="name">Notes</div>';
-    for (let d = 0; d < DAYS; d++) {
-      const ci = document.createElement('input'); ci.className = 'day-input'; ci.type = 'text'; ci.setAttribute('aria-label', `Cycle day, column ${d + 1}`);
-      ci.addEventListener('input', () => { getDay(cols[d]).cycle = ci.value.trim(); persistSoon(); });
-      const cw = document.createElement('div'); cw.appendChild(ci); cyc.appendChild(cw); cycleIns.push(ci);
-      const ta = document.createElement('textarea'); ta.setAttribute('aria-label', `Notes, column ${d + 1}`);
-      ta.addEventListener('input', () => { getDay(cols[d]).notes = ta.value; persistSoon(); });
-      const tw = document.createElement('div'); tw.appendChild(ta); notes.appendChild(tw); noteIns.push(ta);
-    }
-    F.appendChild(cyc); F.appendChild(notes);
-
-    /* ---------- show a two-week window ---------- */
+    /* ---------- show the current window ---------- */
     function render() {
       cols = Array.from({ length: DAYS }, (_, d) => iso(addDays(start, d)));
-      const t = iso(today());
-      $('wk0').textContent = fmt(start, { month: 'short', day: 'numeric' });
-      $('wk1').textContent = fmt(addDays(start, 7), { month: 'short', day: 'numeric' });
-      $('rangeLabel').textContent = `${fmt(start, { month: 'short', day: 'numeric' })} – ${fmt(addDays(start, 13), { month: 'short', day: 'numeric' })}`;
+      const t = iso(today()), md = { month: 'short', day: 'numeric' };
+      $('wk0').textContent = fmt(start, md);
+      $('rangeLabel').textContent = `${fmt(start, md)} – ${fmt(addDays(start, DAYS - 1), md)}`;
       $('next').disabled = start >= defaultStart();
       $('toToday').disabled = +start === +defaultStart();
+      $('prev').setAttribute('aria-label', phone ? 'Earlier days' : 'Previous week');
+      $('next').setAttribute('aria-label', phone ? 'Later days' : 'Next week');
+      $('clear').textContent = phone ? 'Clear these days' : 'Clear this week';
       cols.forEach((key, d) => {
         const dt = fromIso(key), fut = key > t, e = db.days[key] || { f: {} };
         dateEls[d].className = 'date' + (key === t ? ' today' : '') + (fut ? ' future' : '');
@@ -414,16 +436,9 @@
       customInputs.forEach((inp, i) => { if (document.activeElement !== inp) inp.value = db.custom[i] || ''; });
       draw();
     }
-    $('prev').addEventListener('click', () => { start = addDays(start, -7); render(); });
-    $('next').addEventListener('click', () => { start = addDays(start, 7); render(); });
-    $('toToday').addEventListener('click', () => { start = defaultStart(); render(); scrollToToday(); });
-
-    function scrollToToday() {
-      const wrap = $('sheetWrap'), i = cols.indexOf(iso(today()));
-      if (i < 0 || wrap.scrollWidth <= wrap.clientWidth) return;
-      const label = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--label')) || 200;
-      wrap.scrollLeft = 16 + (i + 1) * DAYW - (wrap.clientWidth - label) + 24;
-    }
+    $('prev').addEventListener('click', () => { start = addDays(start, -DAYS); render(); });
+    $('next').addEventListener('click', () => { start = addDays(start, DAYS); render(); });
+    $('toToday').addEventListener('click', () => { start = defaultStart(); render(); });
 
     $('save').addEventListener('click', () => {
       if (!persist()) return;
@@ -433,7 +448,7 @@
       if (e) $('journey').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $('clear').addEventListener('click', () => {
-      if (!confirm('Clear everything you marked in these two weeks? This can’t be undone.')) return;
+      if (!confirm(`Clear everything you marked ${phone ? 'on these days' : 'this week'}? This can’t be undone.`)) return;
       cols.forEach(k => delete db.days[k]);
       render(); changed();
     });
@@ -529,7 +544,17 @@
       const b = e.target.closest('.pill'); if (!b) return;
       range = b.dataset.r; document.querySelectorAll('.pill').forEach(p => p.classList.toggle('on', p === b)); journey();
     });
-    let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(journey, 150); });
+    let rz, lastW = window.innerWidth;
+    window.addEventListener('resize', () => {
+      clearTimeout(rz);
+      rz = setTimeout(() => {
+        if (window.innerWidth !== lastW) {          // ignore phone address-bar height changes
+          lastW = window.innerWidth; const was = phone;
+          build(); if (was !== phone) start = defaultStart(); render();
+        }
+        journey();
+      }, 150);
+    });
 
     /* ---------- backup ---------- */
     $('exportBtn').addEventListener('click', () => {
@@ -550,7 +575,7 @@
       } catch (err) { flash('That file isn’t a tracker backup.', true); }
     });
 
-    render(); journey(); scrollToToday();
+    build(); render(); journey();
   </script>
 </body>
 </html>
