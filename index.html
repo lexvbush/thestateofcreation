@@ -240,6 +240,7 @@
       color: var(--cream);
       text-decoration: none;
       border: 1px solid var(--ink);
+      border-radius: 999px;
       transition: background .25s, border-color .25s, transform .25s;
     }
     .btn-primary:hover { background: var(--ember); border-color: var(--ember); transform: translateY(-1px); }
@@ -383,9 +384,10 @@
 
     /* ── QUOTE ── */
     .quote-section {
-      padding: 9rem 2rem;
-      background: var(--warm-white);
+      padding: 11rem 2rem;
       text-align: center;
+      background: linear-gradient(180deg, rgba(14,14,14,0.30), rgba(14,14,14,0.55)), url('images/sunlit-plants.jpg') center / cover no-repeat;
+      background-attachment: scroll, fixed;
     }
     .quote-section blockquote {
       font-family: var(--serif);
@@ -395,14 +397,15 @@
       line-height: 1.45;
       max-width: 820px;
       margin: 0 auto;
-      color: var(--ink);
+      color: var(--warm-white);
+      text-shadow: 0 2px 18px rgba(0,0,0,0.25);
     }
     .quote-section blockquote::before {
       content: '\201C';
       display: block;
       font-size: 4rem;
       line-height: 0.6;
-      color: var(--ember);
+      color: #9fdcaa;
       margin-bottom: 1.2rem;
     }
     .quote-attribution {
@@ -410,8 +413,19 @@
       font-size: 0.72rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--stone);
+      color: rgba(253,250,246,0.75);
     }
+
+    html, body { overflow-x: hidden; }
+    /* ── ARCH GALLERY ── */
+    .gallery { padding: 6rem 2rem; background: var(--warm-white); }
+    .gallery-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 2rem; align-items: end; }
+    .gallery figure { margin: 0; overflow: hidden; box-shadow: 0 18px 40px rgba(74,64,57,0.12); }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s ease; }
+    .gallery figure:hover img { transform: scale(1.04); }
+    .g-arch { aspect-ratio: 3 / 4.4; border-radius: 999px 999px 28px 28px; }
+    .g-pebble { aspect-ratio: 1 / 1; border-radius: 46% 54% 52% 48% / 55% 45% 55% 45%; }
+    .g-arch-low { aspect-ratio: 3 / 3.8; border-radius: 999px 999px 28px 28px; margin-bottom: 3rem; }
 
     /* ── ABOUT ── */
     .section-label {
@@ -426,6 +440,7 @@
     .about {
       padding: 8rem 2rem;
       background: var(--cream);
+      overflow-x: clip;
     }
     .about-inner {
       max-width: 1100px;
@@ -443,6 +458,7 @@
       background: var(--mist);
       position: relative;
       overflow: hidden;
+      border-radius: 999px 999px 28px 28px;
     }
     .about-frame img {
       width: 100%;
@@ -461,10 +477,11 @@
       position: absolute;
       bottom: -1.6rem;
       right: -1.6rem;
-      width: 120px;
-      height: 120px;
-      border: 2px solid var(--ember);
-      opacity: 0.4;
+      width: 130px;
+      height: 130px;
+      border: 1.5px solid var(--ember);
+      border-radius: 50%;
+      opacity: 0.45;
     }
 
     .about-text .section-label { text-align: left; }
@@ -538,6 +555,7 @@
       justify-content: center;
       padding: 1.6rem;
       margin-bottom: 1.8rem;
+      border-radius: 28px;
     }
     .tool-frame img {
       max-width: 100%;
@@ -564,7 +582,7 @@
       color: #5a4a40;
     }
     .tool-proto { margin-top: 0.9rem; font-size: 0.78rem; color: #5a4a40; }
-    .tool-proto span { display: inline-block; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ember); border: 1px solid var(--ember); padding: 0.18rem 0.5rem; margin-right: 0.5rem; vertical-align: 1px; }
+    .tool-proto span { display: inline-block; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ember); border: 1px solid var(--ember); padding: 0.18rem 0.6rem; margin-right: 0.5rem; vertical-align: 1px; border-radius: 999px; }
     .tool-proto a { color: inherit; }
     .tool-credit {
       margin-top: 0.8rem;
@@ -581,8 +599,11 @@
       padding: 3.2rem 2.4rem;
       text-align: center;
       position: relative;
+      border-radius: 32px;
+      box-shadow: 0 18px 40px rgba(74,64,57,0.08);
     }
     .signup::before {
+      display: none;
       content: '';
       position: absolute;
       top: -1px; left: 50%;
@@ -620,6 +641,7 @@
       color: var(--ink);
       outline: none;
       transition: border-color 0.2s;
+      border-radius: 999px;
     }
     .signup-form input:focus { border-color: var(--ember); }
     .signup-form button {
@@ -635,6 +657,7 @@
       border: 1px solid var(--ink);
       cursor: pointer;
       transition: background 0.2s, border-color 0.2s;
+      border-radius: 999px;
     }
     .signup-form button:hover { background: var(--ember); border-color: var(--ember); }
     .signup-note {
@@ -696,6 +719,10 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
+      .quote-section { background-attachment: scroll, scroll; padding: 8rem 1.6rem; }
+      .gallery-inner { grid-template-columns: 1fr 1fr; }
+      .gallery .g-pebble { display: none; }
+      .g-arch-low { margin-bottom: 0; }
       nav { padding: 1.2rem 1.6rem; }
       .nav-links { gap: 1.4rem; }
       .about-inner { grid-template-columns: 1fr; gap: 3.5rem; }
@@ -768,6 +795,15 @@
       Reframe your perspective — overcoming resistance is a repetition for spiritual growth.
     </blockquote>
     <p class="quote-attribution">— Alexa Bush</p>
+  </section>
+
+  <!-- ARCH GALLERY -->
+  <section class="gallery" aria-hidden="true">
+    <div class="gallery-inner">
+      <figure class="g-arch"><img src="images/sunroom.jpg" alt="" loading="lazy" /></figure>
+      <figure class="g-pebble"><img src="images/garden-room.jpg" alt="" loading="lazy" /></figure>
+      <figure class="g-arch-low"><img src="images/window-light.jpg" alt="" loading="lazy" /></figure>
+    </div>
   </section>
 
   <!-- ABOUT -->
