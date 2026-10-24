@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mood &amp; Consciousness Tracker — The State of Creation</title>
-  <meta name="description" content="Track your level of consciousness morning and evening, and see what really moves your energy. Interactive beta, plus a printable PDF." />
+  <meta name="description" content="Track your level of consciousness morning and evening, save each day, and watch your journey take shape over time." />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -31,18 +31,30 @@
     .label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ember); margin-bottom: 1rem; }
     .beta-tag { display: inline-block; margin-left: 0.5rem; padding: 0.12rem 0.5rem; font-size: 0.58rem; letter-spacing: 0.16em; color: var(--ember); border: 1px solid var(--ember); border-radius: 999px; vertical-align: 1px; }
     h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
-    h1 em { font-style: italic; color: var(--ember); }
+    h1 em, h2 em { font-style: italic; color: var(--ember); }
     .lead { font-family: var(--serif); font-style: italic; font-size: 1.15rem; line-height: 1.6; color: #4a4039; margin-bottom: 1.4rem; }
     .how { font-size: 0.82rem; line-height: 1.8; color: var(--brown); margin-bottom: 1.6rem; }
     .actions { display: flex; gap: 1.2rem; justify-content: center; align-items: center; flex-wrap: wrap; }
-    .btn { display: inline-block; font: inherit; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.95rem 1.8rem; background: var(--ink); color: var(--cream); border: 1px solid var(--ink); cursor: pointer; text-decoration: none; transition: background .2s, border-color .2s; }
+    .btn { display: inline-block; font: inherit; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.95rem 1.9rem; background: var(--ink); color: var(--cream); border: 1px solid var(--ink); border-radius: 999px; cursor: pointer; text-decoration: none; transition: background .2s, border-color .2s; }
     .btn:hover { background: var(--ember); border-color: var(--ember); }
-    .text-btn { font: inherit; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brown); background: none; border: 0; border-bottom: 1px solid var(--stone); padding-bottom: 2px; cursor: pointer; }
+    .text-btn { font: inherit; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brown); background: none; border: 0; border-bottom: 1px solid var(--stone); padding-bottom: 2px; cursor: pointer; text-decoration: none; }
     .text-btn:hover { color: var(--ember); border-color: var(--ember); }
-    .note { margin-top: 1rem; font-size: 0.72rem; color: var(--stone); }
+    .text-btn:disabled { opacity: 0.35; cursor: default; color: var(--brown); border-color: var(--stone); }
+    .note { margin-top: 1rem; font-size: 0.72rem; line-height: 1.6; color: var(--stone); }
+
+    /* view bar */
+    .viewbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .nav { display: flex; align-items: center; gap: 0.6rem; }
+    .round { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--mist); background: #fff; color: var(--brown); font: inherit; font-size: 1rem; cursor: pointer; display: grid; place-items: center; transition: border-color .2s, color .2s; }
+    .round:hover:not(:disabled) { border-color: var(--ember); color: var(--ember); }
+    .round:disabled { opacity: 0.35; cursor: default; }
+    .range-label { font-family: var(--serif); font-size: 1.15rem; min-width: 9.5rem; text-align: center; }
+    .status { font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ember); opacity: 0; transition: opacity .4s; }
+    .status.show { opacity: 1; }
+    .status.err { color: #B32A36; }
 
     /* the sheet */
-    .sheet-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; background: #fff; border: 1px solid var(--mist); box-shadow: 0 14px 36px rgba(74,64,57,0.08); }
+    .sheet-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; background: #fff; border: 1px solid var(--mist); border-radius: 18px; box-shadow: 0 14px 36px rgba(74,64,57,0.08); }
     .sheet { width: calc(var(--label) + 14 * var(--day) + 32px); padding: 22px 16px 26px; }
     .sheet-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
     .sheet-title .brand { font-family: var(--serif); font-size: 1.7rem; color: var(--ember); }
@@ -50,17 +62,22 @@
     .sheet-title .sub { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: #4a4039; }
     .row { display: grid; grid-template-columns: var(--label) repeat(14, var(--day)); align-items: center; }
     .weeks .cell { grid-column: span 7; text-align: center; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: #4a4039; padding: 4px 0; }
-    .weeks input { font: inherit; font-size: 0.72rem; width: 110px; border: 0; border-bottom: 1px dotted var(--line); background: transparent; text-align: center; color: var(--ink); margin-left: 6px; letter-spacing: 0; text-transform: none; }
+    .weeks .cell b { font-weight: 400; color: var(--ink); letter-spacing: 0.08em; }
     .dates .head, .factor .name { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #4a4039; padding-left: 26px; }
-    .dates input { font: inherit; font-size: 0.7rem; width: 52px; margin: 0 6px; border: 0; border-bottom: 1px dotted var(--line); background: transparent; text-align: center; color: var(--ink); }
+    .date { text-align: center; line-height: 1.15; padding: 2px 0 4px; }
+    .date .wd { display: block; font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
+    .date .dn { font-family: var(--serif); font-size: 1.05rem; color: var(--ink); }
+    .date.today .dn { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ember); color: #fff; }
+    .date.today .wd { color: var(--ember); }
+    .date.future { opacity: 0.35; }
     .ampm { font-size: 0.5rem; color: var(--stone); display: flex; justify-content: space-around; letter-spacing: 0.05em; }
     .chart { position: relative; display: flex; }
-    .levels { width: var(--label); position: relative; }
+    .levels { width: var(--label); position: relative; flex: none; }
     .levels .lv { height: 24px; display: flex; align-items: center; gap: 7px; padding-left: 26px; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #4a4039; }
     .levels .chip { width: 9px; height: 9px; border-radius: 50%; flex: none; }
     .levels .val { margin-left: auto; padding-right: 8px; color: var(--stone); font-size: 0.6rem; letter-spacing: 0; }
     svg.plot { display: block; cursor: crosshair; touch-action: manipulation; }
-    .side { position: absolute; left: 4px; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; width: 14px; }
+    .side { position: absolute; left: 4px; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; width: 14px; z-index: 3; }
     .side span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 0.56rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ember); white-space: nowrap; background: #fff; padding: 6px 0; position: relative; z-index: 1; }
     .side::before { content: ''; position: absolute; left: 6px; top: 4px; bottom: 4px; border-left: 1px solid var(--ember); }
     .key { font-size: 0.5rem; letter-spacing: 0.12em; color: var(--stone); padding: 8px 0 4px 26px; display: flex; align-items: center; gap: 6px; }
@@ -68,22 +85,60 @@
     .group { position: relative; }
     .factor { height: 30px; border-top: 1px solid var(--mist); }
     .factor.brk { border-top-color: var(--stone); }
-    .factor .name input { font: inherit; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; width: 150px; border: 0; border-bottom: 1px dotted var(--line); background: transparent; color: var(--ink); }
+    .factor .name input { font: inherit; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; width: 100%; max-width: 150px; border: 0; border-bottom: 1px dotted var(--line); background: transparent; color: var(--ink); }
     .dots { display: flex; justify-content: center; align-items: flex-end; gap: 3px; height: 100%; padding-bottom: 7px; }
     .dots button { border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; padding: 0; transition: background .15s, border-color .15s; }
     .dots button.on { background: var(--c); border-color: var(--c); }
     .dots button:hover { border-color: var(--ember); }
+    .future-cell { opacity: 0.3; pointer-events: none; }
     .day-input { font: inherit; font-size: 0.66rem; width: 54px; margin: 0 5px; border: 0; border-bottom: 1px dotted var(--line); background: transparent; text-align: center; color: var(--ink); }
-    .notes textarea { font: inherit; font-size: 0.64rem; line-height: 1.4; width: 58px; height: 46px; margin: 4px 3px; border: 1px dotted var(--mist); background: transparent; resize: none; color: var(--ink); padding: 3px; }
+    .notes textarea { font: inherit; font-size: 0.64rem; line-height: 1.4; width: 58px; height: 46px; margin: 4px 3px; border: 1px dotted var(--mist); border-radius: 10px; background: transparent; resize: none; color: var(--ink); padding: 4px; }
     .factor.notes { height: auto; border-bottom: 1px solid var(--mist); }
-    .col-sep { border-left: 1px dashed #ece6e0; height: 100%; }
     .scroll-hint { display: none; text-align: center; font-size: 0.7rem; color: var(--stone); margin: 0 0 0.8rem; }
+    .save-row { display: flex; justify-content: center; align-items: center; gap: 1.4rem; flex-wrap: wrap; margin-top: 1.6rem; }
+
+    /* journey */
+    .journey { margin-top: 4.5rem; }
+    .journey-head { text-align: center; max-width: 620px; margin: 0 auto 1.8rem; }
+    h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.15; margin-bottom: 0.7rem; }
+    .journey-head p { font-family: var(--serif); font-style: italic; font-size: 1.05rem; line-height: 1.6; color: #4a4039; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; margin-bottom: 1.4rem; }
+    .stat { background: #fff; border: 1px solid var(--mist); border-radius: 18px; padding: 1.1rem 1rem; text-align: center; }
+    .stat .n { font-family: var(--serif); font-size: 2rem; line-height: 1.1; }
+    .stat .n.word { font-size: 1.45rem; line-height: 1.5; }
+    .stat .t { margin-top: 0.3rem; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); }
+    .card { background: #fff; border: 1px solid var(--mist); border-radius: 18px; box-shadow: 0 14px 36px rgba(74,64,57,0.06); padding: 1.3rem 1.2rem 1rem; }
+    .pills { display: flex; justify-content: center; gap: 0.4rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .pill { font: inherit; font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.45rem 0.95rem; border-radius: 999px; border: 1px solid var(--mist); background: transparent; color: var(--brown); cursor: pointer; }
+    .pill.on { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+    #jchart { width: 100%; }
+    #jchart svg { display: block; width: 100%; height: auto; }
+    .legend { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 0.6rem; font-size: 0.62rem; color: var(--stone); letter-spacing: 0.06em; }
+    .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .patterns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1.4rem; }
+    .patterns h3 { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin-bottom: 0.2rem; }
+    .patterns .sub { font-size: 0.72rem; color: var(--stone); margin-bottom: 0.8rem; }
+    .patterns ul { list-style: none; }
+    .patterns li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-top: 1px solid #efe9e3; font-size: 0.82rem; }
+    .patterns li b { font-weight: 400; color: var(--brown); white-space: nowrap; }
+    .patterns .empty { font-size: 0.8rem; color: var(--stone); line-height: 1.6; }
+    .backup { display: flex; justify-content: center; gap: 1.4rem; flex-wrap: wrap; margin-top: 1.8rem; }
 
     footer { background: var(--ink); color: rgba(247,243,238,0.5); padding: 1.8rem 2rem; font-size: 0.7rem; letter-spacing: 0.08em; text-align: center; }
     footer a { color: rgba(247,243,238,0.75); }
     @media (max-width: 860px) {
+      :root { --label: 150px; }
       header { padding: 1.2rem 1.4rem; }
       .scroll-hint { display: block; }
+      /* keep the row names in view while swiping through the days */
+      .row > :first-child, .levels { position: sticky; left: 0; z-index: 2; background: #fff; }
+      .row > :first-child { align-self: stretch; display: flex; align-items: center; }
+      .factor.notes > :first-child { align-items: flex-start; padding-top: 8px; }
+      .levels .lv { gap: 5px; letter-spacing: 0.06em; }
+      .factor .name { line-height: 1.25; padding-right: 6px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .patterns { grid-template-columns: 1fr; }
+      .viewbar { justify-content: center; }
     }
   </style>
 </head>
@@ -98,19 +153,28 @@
       <p class="label">Interactive tracker <span class="beta-tag">Beta</span></p>
       <h1>Mood &amp; <em>Consciousness</em></h1>
       <p class="lead">Mark your level each morning and evening, then notice what shaped your day.</p>
-      <p class="how">Tap the chart to place your <b>AM</b> and <b>PM</b> level; tap the same spot again to clear it. Below, tap a circle to rate each input — small for a little, large for a lot.</p>
+      <p class="how">Tap the chart to place your <b>AM</b> and <b>PM</b> level; tap the same spot again to clear it. Below, tap a circle to rate each input — small for a little, large for a lot. Come back each day and watch your journey take shape.</p>
       <div class="actions">
-        <a class="btn" href="tools/soc-mood-consciousness-tracker.pdf" download>Download the printable PDF</a>
-        <button class="text-btn" id="clear">Clear the sheet</button>
+        <a class="text-btn" href="tools/soc-mood-consciousness-tracker.pdf" download>Download the printable PDF</a>
       </div>
-      <p class="note">This version doesn't save yet — your marks clear when you leave the page. Print the PDF to keep a record.</p>
+      <p class="note">Your entries save privately on this device as you go — nothing is sent anywhere. Use the same phone or browser each day to keep your history together.</p>
     </section>
 
+    <div class="viewbar">
+      <div class="nav">
+        <button class="round" id="prev" aria-label="Earlier week">‹</button>
+        <span class="range-label" id="rangeLabel"></span>
+        <button class="round" id="next" aria-label="Later week">›</button>
+        <button class="text-btn" id="toToday">Today</button>
+      </div>
+      <span class="status" id="status" role="status" aria-live="polite"></span>
+    </div>
+
     <p class="scroll-hint">Swipe sideways to see all 14 days →</p>
-    <div class="sheet-wrap">
+    <div class="sheet-wrap" id="sheetWrap">
       <div class="sheet" id="sheet">
         <div class="sheet-title"><span class="brand">The <em>State</em> of Creation</span><span class="sub">Mood &amp; Consciousness</span></div>
-        <div class="row weeks"><div></div><div class="cell">Week of <input type="text" aria-label="Week one start" /></div><div class="cell">Week of <input type="text" aria-label="Week two start" /></div></div>
+        <div class="row weeks"><div></div><div class="cell">Week of <b id="wk0"></b></div><div class="cell">Week of <b id="wk1"></b></div></div>
         <div class="row dates" id="dates"><div class="head">Date</div></div>
         <div class="row" id="ampm"><div></div></div>
         <div class="chart">
@@ -121,6 +185,60 @@
         <div class="factors" id="factors"></div>
       </div>
     </div>
+
+    <div class="save-row">
+      <button class="btn" id="save">Save my day</button>
+      <button class="text-btn" id="clear">Clear these two weeks</button>
+    </div>
+
+    <section class="journey" id="journey">
+      <div class="journey-head">
+        <p class="label">Your journey</p>
+        <h2>Rise to the level of your <em>journey</em></h2>
+        <p>Every saved day adds a point. Over time you'll see where you live, what lifts you, and what pulls you down.</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="n" id="sDays">0</div><div class="t">Days tracked</div></div>
+        <div class="stat"><div class="n" id="sStreak">0</div><div class="t">Day streak</div></div>
+        <div class="stat"><div class="n word" id="sAvg">—</div><div class="t">Average level</div></div>
+        <div class="stat"><div class="n" id="sAbove">—</div><div class="t">Days at Courage or above</div></div>
+      </div>
+
+      <div class="card">
+        <div class="pills" id="pills">
+          <button class="pill on" data-r="14">2 weeks</button>
+          <button class="pill" data-r="30">Month</button>
+          <button class="pill" data-r="90">3 months</button>
+          <button class="pill" data-r="all">All</button>
+        </div>
+        <div id="jchart"></div>
+        <div class="legend">
+          <span><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="#44BB57"/></svg>Daily level</span>
+          <span><svg width="6" height="16"><line x1="3" y1="2" x2="3" y2="14" stroke="#b8a99a" stroke-width="2.4" stroke-linecap="round"/></svg>Morning to evening</span>
+          <span><svg width="22" height="6"><line x1="1" y1="3" x2="21" y2="3" stroke="#F2A93B" stroke-width="1.2" stroke-dasharray="3 3"/></svg>Courage</span>
+        </div>
+      </div>
+
+      <div class="patterns">
+        <div class="card">
+          <h3>Lifts</h3>
+          <p class="sub">On days with more of these, you sit higher.</p>
+          <div id="lifts"></div>
+        </div>
+        <div class="card">
+          <h3>Drains</h3>
+          <p class="sub">On days with more of these, you sit lower.</p>
+          <div id="drains"></div>
+        </div>
+      </div>
+
+      <div class="backup">
+        <button class="text-btn" id="exportBtn">Download my data</button>
+        <button class="text-btn" id="importBtn">Restore a backup</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden />
+      </div>
+    </section>
   </main>
 
   <footer>© 2026 Alexa Bush · <a href="/">thestateofcreation.com</a></footer>
@@ -131,103 +249,308 @@
       ['Reason','400','#1FA39A'],['Acceptance','350','#44BB57'],['Willingness','310','#8CC63F'],['Neutrality','250','#E3C93B'],
       ['Courage','200','#F2A93B'],['Pride','175','#EE8A2E'],['Anger','150','#E5612B'],['Desire','125','#D63A2F'],
       ['Fear','100','#B32A36'],['Grief','75','#8E2A3C'],['Apathy','50','#6E4A3B'],['Guilt','30','#4E3A33'],['Shame','20','#2E2A28']];
-    const COURAGE = 8;
+    const TOP = LEVELS.length - 1, COURAGE = 8;          // index in LEVELS
     const GROUPS = [
       ['Body', ['Sleep','Water','Food quality','Stimulants','Exercise','Pain / sickness']],
       ['Mind', ['Screen time','Stress','Meditation / stillness','Creation']],
       ['Life', ['Connection','Personal development','Income','Nature']],
-      ['', ['__blank','__blank']]
+      ['', ['__c0','__c1']]
     ];
     const $ = id => document.getElementById(id);
     const slotX = s => Math.floor(s / 2) * DAYW + (s % 2 ? 0.7 : 0.3) * DAYW;
 
-    // dates + am/pm headers
+    /* ---------- dates ---------- */
+    const pad = n => String(n).padStart(2, '0');
+    const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const fromIso = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+    const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+    const today = () => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); };
+    const mondayOf = d => addDays(d, -((d.getDay() + 6) % 7));
+    const fmt = (d, o) => d.toLocaleDateString('en-US', o);
+    const defaultStart = () => addDays(mondayOf(today()), -7);   // last week + this week
+    let start = defaultStart(), cols = [];
+
+    /* ---------- storage (this device only) ---------- */
+    const STORE = 'soc-tracker-v1';
+    function load() {
+      try { const d = JSON.parse(localStorage.getItem(STORE)); if (d && d.days) return { days: d.days, custom: d.custom || ['', ''] }; } catch (e) {}
+      return { days: {}, custom: ['', ''] };
+    }
+    let db = load();
+    const getDay = k => db.days[k] || (db.days[k] = { am: null, pm: null, f: {}, cycle: '', notes: '' });
+    const isEmpty = e => e.am == null && e.pm == null && !Object.keys(e.f || {}).length && !e.cycle && !e.notes;
+    let statusTimer;
+    function flash(msg, err) {
+      const s = $('status'); s.textContent = msg; s.classList.toggle('err', !!err); s.classList.add('show');
+      clearTimeout(statusTimer); statusTimer = setTimeout(() => s.classList.remove('show'), err ? 6000 : 2200);
+    }
+    function persist() {
+      for (const k in db.days) if (isEmpty(db.days[k])) delete db.days[k];
+      try { localStorage.setItem(STORE, JSON.stringify(db)); flash('Saved on this device ✓'); return true; }
+      catch (e) { flash("This browser isn't letting us save — try leaving private browsing.", true); return false; }
+    }
+    let typingTimer;
+    const persistSoon = () => { clearTimeout(typingTimer); typingTimer = setTimeout(() => { persist(); journey(); }, 500); };
+    const changed = () => { persist(); journey(); };
+    const isFuture = d => cols[d] > iso(today());
+
+    /* ---------- build the sheet ---------- */
+    const dateEls = [];
     for (let d = 0; d < DAYS; d++) {
-      const c = document.createElement('div'); c.innerHTML = `<input type="text" aria-label="Date, day ${d + 1}" />`; $('dates').appendChild(c);
+      const c = document.createElement('div'); c.className = 'date'; $('dates').appendChild(c); dateEls.push(c);
       const a = document.createElement('div'); a.className = 'ampm'; a.innerHTML = '<span>AM</span><span>PM</span>'; $('ampm').appendChild(a);
     }
-    // level labels
     LEVELS.forEach(([name, val, col]) => {
       const el = document.createElement('div'); el.className = 'lv';
       el.innerHTML = `<span class="chip" style="background:${col}"></span>${name}<span class="val">${val}</span>`;
       $('levels').appendChild(el);
     });
 
-    // chart
     const plot = $('plot'), W = DAYS * DAYW, H = LEVELS.length * ROW, NS = 'http://www.w3.org/2000/svg';
     plot.setAttribute('width', W); plot.setAttribute('height', H); plot.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    const marks = new Array(DAYS * 2).fill(null);
     const mk = (tag, attrs, parent = plot) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
-    // one soft, continuous wash of colour inside a rounded frame (organic, no hard blocks)
     const defs = mk('defs', {}), grad = mk('linearGradient', { id: 'wash', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
     LEVELS.forEach(([, , col], k) => mk('stop', { offset: (k + 0.5) / LEVELS.length, 'stop-color': col, 'stop-opacity': 0.16 }, grad));
     mk('rect', { x: 0, y: 0, width: W, height: H, rx: 12, fill: 'url(#wash)' });
+    const colLayer = mk('g', {});
     for (let d = 0; d <= DAYS; d++) mk('line', { x1: d * DAYW, x2: d * DAYW, y1: 0, y2: H, stroke: d === 7 ? '#b8a99a' : '#e4ddd6', 'stroke-width': d === 7 ? 1 : 0.75, 'stroke-dasharray': d % 7 ? '2 4' : '' });
-
     for (let k = 0; k < LEVELS.length; k++) for (let s = 0; s < DAYS * 2; s++) mk('circle', { cx: slotX(s), cy: k * ROW + ROW / 2, r: 1.3, fill: '#8f8174' });
     const dotLayer = mk('g', {});
 
     function draw() {
-      const pts = [];
-      dotLayer.innerHTML = '';
-      marks.forEach((k, s) => {
-        if (k === null) return;
-        const x = slotX(s), y = k * ROW + ROW / 2; pts.push([x, y]);
-        mk('circle', { cx: x, cy: y, r: 5, fill: LEVELS[k][2] }, dotLayer);
+      dotLayer.innerHTML = ''; colLayer.innerHTML = '';
+      cols.forEach((key, d) => {
+        if (key === iso(today())) mk('rect', { x: d * DAYW + 3, y: 3, width: DAYW - 6, height: H - 6, rx: 26, fill: '#44bb57', 'fill-opacity': 0.08 }, colLayer);
+        else if (isFuture(d)) mk('rect', { x: d * DAYW + 3, y: 3, width: DAYW - 6, height: H - 6, rx: 26, fill: '#fff', 'fill-opacity': 0.6 }, colLayer);
+        const e = db.days[key]; if (!e) return;
+        ['am', 'pm'].forEach((p, i) => {
+          if (e[p] == null) return;
+          mk('circle', { cx: slotX(d * 2 + i), cy: e[p] * ROW + ROW / 2, r: 5, fill: LEVELS[e[p]][2] }, dotLayer);
+        });
       });
-
     }
     plot.addEventListener('click', e => {
       const r = plot.getBoundingClientRect();
       const x = (e.clientX - r.left) * (W / r.width), y = (e.clientY - r.top) * (H / r.height);
       const day = Math.min(DAYS - 1, Math.max(0, Math.floor(x / DAYW)));
-      const s = day * 2 + ((x - day * DAYW) / DAYW < 0.5 ? 0 : 1);
-      const k = Math.min(LEVELS.length - 1, Math.max(0, Math.floor(y / ROW)));
-      marks[s] = marks[s] === k ? null : k;
-      draw();
+      if (isFuture(day)) return;
+      const p = (x - day * DAYW) / DAYW < 0.5 ? 'am' : 'pm';
+      const k = Math.min(TOP, Math.max(0, Math.floor(y / ROW)));
+      const entry = getDay(cols[day]);
+      entry[p] = entry[p] === k ? null : k;
+      draw(); changed();
     });
 
-    // inputs
+    // input ratings
     const SIZES = [8, 10, 12, 14], SHADES = ['#E8CB3F', '#BFC746', '#86BF4E', '#44BB57'];
-    function ratingCell() {
-      const c = document.createElement('div'); c.className = 'dots'; c.dataset.v = 0;
+    const cells = {};   // key -> [{el, set}] per column
+    function ratingCell(key, d) {
+      const c = document.createElement('div'); c.className = 'dots';
       const btns = SIZES.map((sz, i) => {
         const b = document.createElement('button'); b.type = 'button'; b.style.width = b.style.height = sz + 'px'; b.style.setProperty('--c', SHADES[i]);
         b.setAttribute('aria-label', ['A little', 'Some', 'A lot', 'A great deal'][i]);
-        b.addEventListener('click', () => { const v = +c.dataset.v === i + 1 ? 0 : i + 1; c.dataset.v = v; btns.forEach((x, j) => x.classList.toggle('on', j < v)); });
+        b.addEventListener('click', () => {
+          const entry = getDay(cols[d]); const cur = entry.f[key] || 0, v = cur === i + 1 ? 0 : i + 1;
+          if (v) entry.f[key] = v; else delete entry.f[key];
+          set(v); changed();
+        });
         c.appendChild(b); return b;
       });
-      return c;
+      const set = v => btns.forEach((x, j) => x.classList.toggle('on', j < v));
+      return { el: c, set };
     }
-    const F = $('factors');
-    GROUPS.forEach(([gname, rows], gi) => {
+    const F = $('factors'), customInputs = [];
+    GROUPS.forEach(([gname, rows]) => {
       const g = document.createElement('div'); g.className = 'group';
       if (gname) g.innerHTML = `<div class="side"><span>${gname}</span></div>`;
-      rows.forEach((name, ri) => {
+      rows.forEach((key, ri) => {
         const row = document.createElement('div'); row.className = 'row factor' + (ri === 0 ? ' brk' : '');
         const lab = document.createElement('div'); lab.className = 'name';
-        if (name === '__blank') lab.innerHTML = '<input type="text" placeholder="Your own…" aria-label="Your own input" />'; else lab.textContent = name;
+        if (key.startsWith('__c')) {
+          const i = +key.slice(3), inp = document.createElement('input');
+          inp.type = 'text'; inp.placeholder = 'Your own…'; inp.setAttribute('aria-label', 'Your own input');
+          inp.addEventListener('input', () => { db.custom[i] = inp.value; persistSoon(); });
+          lab.appendChild(inp); customInputs[i] = inp;
+        } else lab.textContent = key;
         row.appendChild(lab);
-        for (let d = 0; d < DAYS; d++) row.appendChild(ratingCell());
+        cells[key] = [];
+        for (let d = 0; d < DAYS; d++) { const rc = ratingCell(key, d); row.appendChild(rc.el); cells[key].push(rc); }
         g.appendChild(row);
       });
       F.appendChild(g);
     });
-    // cycle day + notes
+    const cycleIns = [], noteIns = [];
     const cyc = document.createElement('div'); cyc.className = 'row factor brk';
-    cyc.innerHTML = '<div class="name">Cycle day</div>' + Array.from({ length: DAYS }, (_, d) => `<div><input class="day-input" type="text" aria-label="Cycle day, day ${d + 1}" /></div>`).join('');
-    F.appendChild(cyc);
+    cyc.innerHTML = '<div class="name">Cycle day</div>';
     const notes = document.createElement('div'); notes.className = 'row factor notes brk';
-    notes.innerHTML = '<div class="name">Notes</div>' + Array.from({ length: DAYS }, (_, d) => `<div><textarea aria-label="Notes, day ${d + 1}"></textarea></div>`).join('');
-    F.appendChild(notes);
+    notes.innerHTML = '<div class="name">Notes</div>';
+    for (let d = 0; d < DAYS; d++) {
+      const ci = document.createElement('input'); ci.className = 'day-input'; ci.type = 'text'; ci.setAttribute('aria-label', `Cycle day, column ${d + 1}`);
+      ci.addEventListener('input', () => { getDay(cols[d]).cycle = ci.value.trim(); persistSoon(); });
+      const cw = document.createElement('div'); cw.appendChild(ci); cyc.appendChild(cw); cycleIns.push(ci);
+      const ta = document.createElement('textarea'); ta.setAttribute('aria-label', `Notes, column ${d + 1}`);
+      ta.addEventListener('input', () => { getDay(cols[d]).notes = ta.value; persistSoon(); });
+      const tw = document.createElement('div'); tw.appendChild(ta); notes.appendChild(tw); noteIns.push(ta);
+    }
+    F.appendChild(cyc); F.appendChild(notes);
 
-    $('clear').addEventListener('click', () => {
-      marks.fill(null); draw();
-      document.querySelectorAll('#sheet input, #sheet textarea').forEach(i => i.value = '');
-      document.querySelectorAll('.dots button.on').forEach(b => b.classList.remove('on'));
-      document.querySelectorAll('.dots').forEach(c => c.dataset.v = 0);
+    /* ---------- show a two-week window ---------- */
+    function render() {
+      cols = Array.from({ length: DAYS }, (_, d) => iso(addDays(start, d)));
+      const t = iso(today());
+      $('wk0').textContent = fmt(start, { month: 'short', day: 'numeric' });
+      $('wk1').textContent = fmt(addDays(start, 7), { month: 'short', day: 'numeric' });
+      $('rangeLabel').textContent = `${fmt(start, { month: 'short', day: 'numeric' })} – ${fmt(addDays(start, 13), { month: 'short', day: 'numeric' })}`;
+      $('next').disabled = start >= defaultStart();
+      $('toToday').disabled = +start === +defaultStart();
+      cols.forEach((key, d) => {
+        const dt = fromIso(key), fut = key > t, e = db.days[key] || { f: {} };
+        dateEls[d].className = 'date' + (key === t ? ' today' : '') + (fut ? ' future' : '');
+        dateEls[d].innerHTML = `<span class="wd">${fmt(dt, { weekday: 'short' })}</span><span class="dn">${dt.getDate()}</span>`;
+        for (const k in cells) { cells[k][d].set(e.f[k] || 0); cells[k][d].el.classList.toggle('future-cell', fut); }
+        cycleIns[d].value = e.cycle || ''; cycleIns[d].disabled = fut;
+        noteIns[d].value = e.notes || ''; noteIns[d].disabled = fut;
+      });
+      customInputs.forEach((inp, i) => { if (document.activeElement !== inp) inp.value = db.custom[i] || ''; });
+      draw();
+    }
+    $('prev').addEventListener('click', () => { start = addDays(start, -7); render(); });
+    $('next').addEventListener('click', () => { start = addDays(start, 7); render(); });
+    $('toToday').addEventListener('click', () => { start = defaultStart(); render(); scrollToToday(); });
+
+    function scrollToToday() {
+      const wrap = $('sheetWrap'), i = cols.indexOf(iso(today()));
+      if (i < 0 || wrap.scrollWidth <= wrap.clientWidth) return;
+      const label = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--label')) || 200;
+      wrap.scrollLeft = 16 + (i + 1) * DAYW - (wrap.clientWidth - label) + 24;
+    }
+
+    $('save').addEventListener('click', () => {
+      if (!persist()) return;
+      const e = db.days[iso(today())];
+      flash(e ? `Saved for ${fmt(today(), { weekday: 'long', month: 'short', day: 'numeric' })} ✓` : 'Saved ✓ — mark today on the chart to add it to your journey');
+      journey();
+      if (e) $('journey').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-    draw();
+    $('clear').addEventListener('click', () => {
+      if (!confirm('Clear everything you marked in these two weeks? This can’t be undone.')) return;
+      cols.forEach(k => delete db.days[k]);
+      render(); changed();
+    });
+
+    /* ---------- journey: graph, stats, patterns ---------- */
+    let range = '14';
+    const heightOf = e => { const v = [e.am, e.pm].filter(x => x != null).map(k => TOP - k); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+    const levelAt = h => LEVELS[TOP - Math.round(h)];
+    const nameOf = key => key.startsWith('__c') ? (db.custom[+key.slice(3)] || 'Your own').trim() || 'Your own' : key;
+
+    function smooth(p) {
+      let d = `M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+      for (let i = 0; i < p.length - 1; i++) {
+        const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+        d += ` C${(p1[0] + (p2[0] - p0[0]) / 6).toFixed(1)},${(p1[1] + (p2[1] - p0[1]) / 6).toFixed(1)} ${(p2[0] - (p3[0] - p1[0]) / 6).toFixed(1)},${(p2[1] - (p3[1] - p1[1]) / 6).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+      }
+      return d;
+    }
+
+    function journey() {
+      const logged = Object.keys(db.days).sort().filter(k => heightOf(db.days[k]) != null);
+      const t = today(), tKey = iso(t);
+
+      // stats
+      $('sDays').textContent = logged.length;
+      let streak = 0, d = t; const has = k => logged.includes(k);
+      if (!has(iso(d))) d = addDays(d, -1);
+      while (has(iso(d))) { streak++; d = addDays(d, -1); }
+      $('sStreak').textContent = streak;
+      if (logged.length) {
+        const hs = logged.map(k => heightOf(db.days[k]));
+        $('sAvg').textContent = levelAt(hs.reduce((a, b) => a + b, 0) / hs.length)[0];
+        $('sAbove').textContent = Math.round(100 * hs.filter(h => h >= TOP - COURAGE).length / hs.length) + '%';
+      } else { $('sAvg').textContent = '—'; $('sAbove').textContent = '—'; }
+
+      // chart
+      const box = $('jchart'), Wd = Math.max(300, box.clientWidth || 600), narrow = Wd < 560;
+      const LBL = narrow ? 86 : 118, RH = narrow ? 15 : 17, PT = 6, PB = 28, Hh = LEVELS.length * RH, R = 14;
+      let n = range === 'all' ? (logged.length ? Math.round((t - fromIso(logged[0])) / 864e5) + 1 : 14) : +range;
+      n = Math.max(n, 2);
+      const first = addDays(t, -(n - 1)), cw = Wd - LBL - R;
+      const X = i => LBL + 10 + (i / (n - 1)) * (cw - 20), Y = h => PT + (TOP - h) * RH + RH / 2;
+      let s = `<svg viewBox="0 0 ${Wd} ${PT + Hh + PB}" role="img" aria-label="Your level of consciousness over time"><defs><linearGradient id="jwash" x1="0" y1="0" x2="0" y2="1">`;
+      LEVELS.forEach(([, , c], k) => { s += `<stop offset="${(k + 0.5) / LEVELS.length}" stop-color="${c}" stop-opacity="0.14"/>`; });
+      s += `</linearGradient></defs><rect x="${LBL}" y="${PT}" width="${cw}" height="${Hh}" rx="14" fill="url(#jwash)"/>`;
+      LEVELS.forEach(([name, , c], k) => {
+        const y = PT + k * RH + RH / 2;
+        s += `<circle cx="7" cy="${y}" r="3.6" fill="${c}"/><text x="16" y="${y + 3.3}" font-family="DM Sans, sans-serif" font-size="${narrow ? 8.6 : 9.6}" letter-spacing="0.6" fill="${k === COURAGE ? '#5a4a40' : '#7a6d62'}" font-weight="${k === COURAGE ? 500 : 300}">${name.toUpperCase()}</text>`;
+      });
+      const yc = Y(TOP - COURAGE);
+      s += `<line x1="${LBL + 6}" x2="${LBL + cw - 6}" y1="${yc}" y2="${yc}" stroke="#F2A93B" stroke-width="1.2" stroke-dasharray="3 4"/>`;
+      // today column
+      s += `<line x1="${X(n - 1)}" x2="${X(n - 1)}" y1="${PT + 6}" y2="${PT + Hh - 6}" stroke="#44bb57" stroke-opacity="0.35" stroke-dasharray="2 4"/>`;
+      const pts = [];
+      let swings = '', dots = '';
+      for (let i = 0; i < n; i++) {
+        const key = iso(addDays(first, i)), e = db.days[key]; if (!e) continue;
+        const h = heightOf(e); if (h == null) continue;
+        const x = X(i), y = Y(h); pts.push([x, y]);
+        if (e.am != null && e.pm != null && e.am !== e.pm) swings += `<line x1="${x}" x2="${x}" y1="${Y(TOP - e.am)}" y2="${Y(TOP - e.pm)}" stroke="#b8a99a" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.75"/>`;
+        dots += `<circle cx="${x}" cy="${y}" r="${n > 60 ? 3.4 : 4.6}" fill="${levelAt(h)[2]}" stroke="#fff" stroke-width="1.5"><title>${fmt(fromIso(key), { weekday: 'short', month: 'short', day: 'numeric' })} · ${levelAt(h)[0]}</title></circle>`;
+      }
+      s += swings;
+      if (pts.length > 1) s += `<path d="${smooth(pts)}" fill="none" stroke="#5a4a40" stroke-opacity="0.45" stroke-width="1.5" stroke-linecap="round"/>`;
+      s += dots;
+      if (!pts.length) s += `<text x="${LBL + cw / 2}" y="${PT + Hh / 2}" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="${narrow ? 15 : 18}" fill="#5a4a40">Your graph begins with your first saved day.</text>`;
+      const ty = PT + Hh + 18, lab = dt => fmt(dt, { month: 'short', day: 'numeric' });
+      s += `<text x="${X(0)}" y="${ty}" font-family="DM Sans, sans-serif" font-size="10" fill="#b8a99a">${lab(first)}</text>`;
+      if (!narrow && n > 6) s += `<text x="${X((n - 1) / 2)}" y="${ty}" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#b8a99a">${lab(addDays(first, Math.round((n - 1) / 2)))}</text>`;
+      s += `<text x="${X(n - 1)}" y="${ty}" text-anchor="end" font-family="DM Sans, sans-serif" font-size="10" fill="#44bb57">Today</text></svg>`;
+      box.innerHTML = s;
+
+      // patterns: compare your level on days with more vs less of each input
+      const rated = logged.filter(k => Object.keys(db.days[k].f || {}).length);
+      const MIN = 7;
+      if (rated.length < MIN) {
+        const msg = `<p class="empty">Rate your inputs and mark your level on ${MIN} days to start seeing patterns. ${rated.length ? `${rated.length} of ${MIN} so far.` : ''}</p>`;
+        $('lifts').innerHTML = msg; $('drains').innerHTML = msg; return;
+      }
+      const keys = GROUPS.flatMap(g => g[1]), found = [];
+      keys.forEach(key => {
+        const hi = [], lo = [];
+        rated.forEach(k => { const v = db.days[k].f[key] || 0, h = heightOf(db.days[k]); (v >= 2 ? hi : lo).push(h); });
+        if (hi.length < 2 || lo.length < 2) return;
+        const avg = a => a.reduce((x, y) => x + y, 0) / a.length, diff = avg(hi) - avg(lo);
+        if (Math.abs(diff) >= 0.5) found.push([nameOf(key), diff]);
+      });
+      const list = (arr, empty) => arr.length ? '<ul>' + arr.map(([nm, df]) => `<li><span>${nm.replace(/</g, '&lt;')}</span><b>${df > 0 ? '+' : '−'}${Math.abs(df).toFixed(1)} levels</b></li>`).join('') + '</ul>' : `<p class="empty">${empty}</p>`;
+      $('lifts').innerHTML = list(found.filter(f => f[1] > 0).sort((a, b) => b[1] - a[1]).slice(0, 4), 'Nothing stands out yet — keep going.');
+      $('drains').innerHTML = list(found.filter(f => f[1] < 0).sort((a, b) => a[1] - b[1]).slice(0, 4), 'Nothing stands out yet — keep going.');
+    }
+    $('pills').addEventListener('click', e => {
+      const b = e.target.closest('.pill'); if (!b) return;
+      range = b.dataset.r; document.querySelectorAll('.pill').forEach(p => p.classList.toggle('on', p === b)); journey();
+    });
+    let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(journey, 150); });
+
+    /* ---------- backup ---------- */
+    $('exportBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify({ app: 'soc-tracker', version: 1, ...db }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = `state-of-creation-tracker-${iso(today())}.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    });
+    $('importBtn').addEventListener('click', () => $('importFile').click());
+    $('importFile').addEventListener('change', async e => {
+      const file = e.target.files[0]; e.target.value = ''; if (!file) return;
+      try {
+        const data = JSON.parse(await file.text());
+        if (!data || typeof data.days !== 'object') throw 0;
+        const n = Object.keys(data.days).length;
+        if (!confirm(`Restore ${n} saved day${n === 1 ? '' : 's'}? Days in the backup replace the same days here.`)) return;
+        Object.assign(db.days, data.days); if (Array.isArray(data.custom)) db.custom = data.custom;
+        render(); changed();
+      } catch (err) { flash('That file isn’t a tracker backup.', true); }
+    });
+
+    render(); journey(); scrollToToday();
   </script>
 </body>
 </html>
