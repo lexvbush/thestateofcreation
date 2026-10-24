@@ -130,11 +130,25 @@
     .patterns li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-top: 1px solid #efe9e3; font-size: 0.82rem; }
     .patterns li b { font-weight: 400; color: var(--brown); white-space: nowrap; }
     .patterns .empty { font-size: 0.8rem; color: var(--stone); line-height: 1.6; }
+    .share-row { display: flex; justify-content: center; margin: 1.1rem 0 0.4rem; }
+    .join-card { position: relative; max-width: 640px; margin: 3rem auto 0; text-align: center; background: #fff; border: 1px solid var(--mist); border-radius: 28px; padding: 2.2rem 1.6rem 1.6rem; box-shadow: 0 14px 36px rgba(74,64,57,0.07); }
+    .join-card h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.1rem); line-height: 1.2; margin-bottom: 0.7rem; }
+    .join-card h3 em { font-style: italic; color: var(--ember); }
+    .join-lead { font-size: 0.86rem; line-height: 1.7; color: var(--brown); max-width: 480px; margin: 0 auto 1.3rem; }
+    .join-form { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+    .join-form input { font: inherit; font-size: 0.9rem; padding: 0.85rem 1.2rem; border: 1px solid var(--mist); border-radius: 999px; background: var(--warm-white); color: var(--ink); min-width: 0; flex: 1 1 160px; max-width: 220px; }
+    .join-form input:focus { outline: none; border-color: var(--ember); }
+    .join-note { margin-top: 0.9rem; font-size: 0.72rem; color: var(--stone); }
+    .join-note.err { color: #B32A36; }
+    .join-close { position: absolute; top: 12px; right: 14px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; color: var(--stone); font-size: 1.3rem; cursor: pointer; }
+    .join-close:hover { color: var(--ink); background: var(--cream); }
     .backup { display: flex; justify-content: center; gap: 1.4rem; flex-wrap: wrap; margin-top: 1.8rem; }
 
     footer { background: var(--ink); color: rgba(247,243,238,0.5); padding: 1.8rem 2rem; font-size: 0.7rem; letter-spacing: 0.08em; text-align: center; }
     footer a { color: rgba(247,243,238,0.75); }
     @media (max-width: 860px) {
+      .join-form input { max-width: none; flex-basis: 100%; }
+      .join-form .btn { width: 100%; }
       header { padding: 1.2rem 1.4rem; }
       .levels .lv { gap: 5px; letter-spacing: 0.06em; }
       .factor .name { line-height: 1.25; padding-right: 6px; }
@@ -192,6 +206,20 @@
       <button class="text-btn" id="clear">Clear this week</button>
     </div>
 
+    <aside class="join-card" id="joinCard" hidden>
+      <button class="join-close" id="joinClose" aria-label="Not now">×</button>
+      <p class="label">You've tracked <span id="joinDays">3</span> days</p>
+      <h3>Keep going, with a little <em>guidance</em></h3>
+      <p class="join-lead">Join the list for short emails that help you overcome what's holding you back, one practice at a time. You'll also get the free printable trackers.</p>
+      <!-- Kit form "Free Trackers Signup" (form 10080208) -->
+      <form class="join-form" id="joinForm" action="https://app.kit.com/forms/10080208/subscriptions" method="post">
+        <input type="text" name="fields[first_name]" placeholder="First name" autocomplete="given-name" aria-label="First name" />
+        <input type="email" name="email_address" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+        <button class="btn" type="submit">Join</button>
+      </form>
+      <p class="join-note" id="joinNote">No spam. Unsubscribe anytime.</p>
+    </aside>
+
     <section class="journey" id="journey">
       <div class="journey-head">
         <p class="label">Your journey</p>
@@ -214,6 +242,7 @@
           <button class="pill" data-r="all">All</button>
         </div>
         <div id="jchart"></div>
+        <div class="share-row"><button class="btn" id="shareBtn">Share my journey</button></div>
         <div class="legend">
           <span><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="#44BB57"/></svg>Daily level</span>
           <span><svg width="6" height="16"><line x1="3" y1="2" x2="3" y2="14" stroke="#b8a99a" stroke-width="2.4" stroke-linecap="round"/></svg>Morning to evening</span>
@@ -277,8 +306,8 @@
     /* ---------- storage (this device only) ---------- */
     const STORE = 'soc-tracker-v1';
     function load() {
-      try { const d = JSON.parse(localStorage.getItem(STORE)); if (d && d.days) return { days: d.days, custom: d.custom || ['', ''] }; } catch (e) {}
-      return { days: {}, custom: ['', ''] };
+      try { const d = JSON.parse(localStorage.getItem(STORE)); if (d && d.days) return { days: d.days, custom: d.custom || ['', ''], meta: d.meta || {} }; } catch (e) {}
+      return { days: {}, custom: ['', ''], meta: {} };
     }
     let db = load();
     const getDay = k => db.days[k] || (db.days[k] = { am: null, pm: null, f: {}, cycle: '', notes: '' });
@@ -469,6 +498,7 @@
     }
 
     function journey() {
+      maybeInvite();
       const logged = Object.keys(db.days).sort().filter(k => heightOf(db.days[k]) != null);
       const t = today(), tKey = iso(t);
 
@@ -555,6 +585,145 @@
         journey();
       }, 150);
     });
+
+    /* ---------- day-3 invitation to join the list ---------- */
+    function maybeInvite() {
+      const n = Object.keys(db.days).filter(k => heightOf(db.days[k]) != null).length;
+      const m = db.meta || {};
+      $('joinCard').hidden = !(n >= 3 && !m.invite);
+      if (!$('joinCard').hidden) $('joinDays').textContent = n;
+    }
+    const setInvite = v => { db.meta = Object.assign({}, db.meta, { invite: v }); try { localStorage.setItem(STORE, JSON.stringify(db)); } catch (e) {} };
+    $('joinClose').addEventListener('click', () => { setInvite('dismissed'); $('joinCard').hidden = true; });
+    $('joinForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const form = e.target, btn = form.querySelector('button'), note = $('joinNote');
+      btn.disabled = true; btn.textContent = 'One moment…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+        const data = res.ok ? await res.json() : {};
+        if (data.status !== 'success') {
+          const msgs = (data.errors && data.errors.messages) || [];
+          note.classList.add('err');
+          note.textContent = msgs.some(m => /email/i.test(m)) ? 'That email doesn’t look quite right — please check it.' : 'Something went wrong — please try again in a moment.';
+          btn.disabled = false; btn.textContent = 'Join';
+          return;
+        }
+        setInvite('joined');
+        form.hidden = true; note.classList.remove('err');
+        note.textContent = 'Almost there — check your inbox and tap the button to confirm.';
+      } catch (err) {
+        note.classList.add('err'); note.textContent = 'Something went wrong — please try again in a moment.';
+        btn.disabled = false; btn.textContent = 'Join';
+      }
+    });
+
+    /* ---------- share my journey (story-sized image) ---------- */
+    const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+    function spaced(ctx, text, x, y, spacing) {      // letter-spaced text, centered on x
+      const chars = [...text], widths = chars.map(ch => ctx.measureText(ch).width);
+      let cx = x - (widths.reduce((a, b) => a + b, 0) + spacing * (chars.length - 1)) / 2;
+      const align = ctx.textAlign; ctx.textAlign = 'left';
+      chars.forEach((ch, i) => { ctx.fillText(ch, cx, y); cx += widths[i] + spacing; });
+      ctx.textAlign = align;
+    }
+    async function shareJourney() {
+      const t = today();
+      let n = range === 'all' ? null : +range;
+      const logged = Object.keys(db.days).sort().filter(k => heightOf(db.days[k]) != null);
+      if (n === null) n = logged.length ? Math.round((t - fromIso(logged[0])) / 864e5) + 1 : 14;
+      n = Math.max(n, 2);
+      const first = addDays(t, -(n - 1));
+      const days = [];
+      for (let i = 0; i < n; i++) { const k = iso(addDays(first, i)), e = db.days[k]; if (e && heightOf(e) != null) days.push([i, e]); }
+      if (!days.length) { flash('Mark a day first, then share your journey.', true); return; }
+
+      const btn = $('shareBtn'); btn.disabled = true;
+      try {
+        await Promise.all(['300 100px "Cormorant Garamond"', 'italic 300 100px "Cormorant Garamond"', '400 30px "DM Sans"', '500 30px "DM Sans"'].map(f => document.fonts.load(f)));
+      } catch (e) {}
+      const CW = 1080, CH = 1920, c = document.createElement('canvas'); c.width = CW; c.height = CH;
+      const x = c.getContext('2d');
+      x.fillStyle = '#f7f3ee'; x.fillRect(0, 0, CW, CH);
+      x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+
+      // header
+      x.fillStyle = '#0e0e0e'; x.font = '400 34px "Cormorant Garamond", Georgia, serif';
+      spaced(x, 'THE STATE OF CREATION', CW / 2, 150, 7);
+      x.fillStyle = '#44bb57'; x.font = '500 24px "DM Sans", sans-serif';
+      spaced(x, 'MY JOURNEY', CW / 2, 250, 9);
+      const title1 = `${days.length} day${days.length === 1 ? '' : 's'} of `, title2 = 'practice';
+      x.font = '300 104px "Cormorant Garamond", Georgia, serif'; const w1 = x.measureText(title1).width;
+      x.font = 'italic 300 104px "Cormorant Garamond", Georgia, serif'; const w2 = x.measureText(title2).width;
+      x.textAlign = 'left';
+      x.fillStyle = '#0e0e0e'; x.font = '300 104px "Cormorant Garamond", Georgia, serif'; x.fillText(title1, (CW - w1 - w2) / 2, 370);
+      x.fillStyle = '#44bb57'; x.font = 'italic 300 104px "Cormorant Garamond", Georgia, serif'; x.fillText(title2, (CW - w1 - w2) / 2 + w1, 370);
+      x.textAlign = 'center'; x.fillStyle = '#8f8174'; x.font = '400 28px "DM Sans", sans-serif';
+      x.fillText(`${fmt(first, { month: 'short', day: 'numeric' })} – ${fmt(t, { month: 'short', day: 'numeric', year: 'numeric' })}`, CW / 2, 432);
+
+      // graph
+      const gx = 80, gy = 500, gw = CW - 160, rh = 44, gh = LEVELS.length * rh;
+      const grad = x.createLinearGradient(0, gy, 0, gy + gh);
+      LEVELS.forEach(([, , col], k) => grad.addColorStop((k + 0.5) / LEVELS.length, rgba(col, 0.2)));
+      x.fillStyle = '#fff'; x.beginPath(); x.roundRect(gx, gy, gw, gh, 36); x.fill();
+      x.fillStyle = grad; x.beginPath(); x.roundRect(gx, gy, gw, gh, 36); x.fill();
+      const Yc = h => gy + (TOP - h) * rh + rh / 2;
+      const Xc = i => gx + 270 + (i / (n - 1)) * (gw - 320);
+      // a few level names to read the scale by
+      x.textAlign = 'left'; x.font = '500 19px "DM Sans", sans-serif';
+      [0, 3, 5, COURAGE, 12, TOP].forEach(k => {
+        x.fillStyle = LEVELS[k][2]; x.beginPath(); x.arc(gx + 30, Yc(TOP - k), 6, 0, 7); x.fill();
+        x.fillStyle = k === COURAGE ? '#5a4a40' : '#7a6d62'; spacedLeft(x, LEVELS[k][0].toUpperCase(), gx + 46, Yc(TOP - k) + 7, 2);
+      });
+      x.strokeStyle = '#F2A93B'; x.lineWidth = 2.5; x.setLineDash([8, 10]);
+      x.beginPath(); x.moveTo(gx + 250, Yc(TOP - COURAGE)); x.lineTo(gx + gw - 30, Yc(TOP - COURAGE)); x.stroke(); x.setLineDash([]);
+      const pts = [];
+      x.strokeStyle = 'rgba(184,169,154,0.8)'; x.lineWidth = 6; x.lineCap = 'round';
+      days.forEach(([i, e]) => {
+        const px = Xc(i), h = heightOf(e); pts.push([px, Yc(h)]);
+        if (e.am != null && e.pm != null && e.am !== e.pm) { x.beginPath(); x.moveTo(px, Yc(TOP - e.am)); x.lineTo(px, Yc(TOP - e.pm)); x.stroke(); }
+      });
+      if (pts.length > 1) { x.strokeStyle = 'rgba(90,74,64,0.5)'; x.lineWidth = 3.5; x.stroke(new Path2D(smooth(pts))); }
+      const r = n > 60 ? 8 : 13;
+      days.forEach(([i, e], j) => {
+        x.fillStyle = levelAt(heightOf(e))[2]; x.strokeStyle = '#fff'; x.lineWidth = 4;
+        x.beginPath(); x.arc(pts[j][0], pts[j][1], r, 0, 7); x.fill(); x.stroke();
+      });
+
+      // stats
+      const hs = days.map(([, e]) => heightOf(e)), best = Math.max(...days.map(([, e]) => Math.max(...[e.am, e.pm].filter(v => v != null).map(k => TOP - k))));
+      const above = Math.round(100 * hs.filter(h => h >= TOP - COURAGE).length / hs.length) + '%';
+      const stats = [[String(days.length), 'DAYS TRACKED'], [LEVELS[TOP - best][0], 'HIGHEST LEVEL'], [above, 'AT COURAGE OR ABOVE']];
+      x.textAlign = 'center';
+      stats.forEach(([v, l], i) => {
+        const cx = CW / 2 + (i - 1) * 320, word = isNaN(parseInt(v));
+        x.fillStyle = '#0e0e0e'; x.font = `300 ${word ? 64 : 88}px "Cormorant Garamond", Georgia, serif`; x.fillText(v, cx, 1420);
+        x.fillStyle = '#8f8174'; x.font = '500 19px "DM Sans", sans-serif'; spaced(x, l, cx, 1470, 4);
+      });
+
+      // footer
+      x.fillStyle = '#5a4a40'; x.font = 'italic 300 46px "Cormorant Garamond", Georgia, serif';
+      x.fillText('Rise to the level of your journey.', CW / 2, 1640);
+      x.fillStyle = '#44bb57'; x.font = '400 30px "DM Sans", sans-serif';
+      x.fillText('thestateofcreation.com/tracker', CW / 2, 1720);
+
+      const blob = await new Promise(res => c.toBlob(res, 'image/png'));
+      const file = new File([blob], 'my-state-of-creation-journey.png', { type: 'image/png' });
+      try {
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], title: 'My journey', text: 'Tracking my level of consciousness with The State of Creation · thestateofcreation.com/tracker' });
+        } else {
+          const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; a.click();
+          setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          flash('Image saved — post it to your story ✓');
+        }
+      } catch (e) { /* share sheet closed */ }
+      btn.disabled = false;
+    }
+    function spacedLeft(ctx, text, x0, y, spacing) {
+      let cx = x0; for (const ch of text) { ctx.fillText(ch, cx, y); cx += ctx.measureText(ch).width + spacing; }
+    }
+    $('shareBtn').addEventListener('click', shareJourney);
 
     /* ---------- backup ---------- */
     $('exportBtn').addEventListener('click', () => {
