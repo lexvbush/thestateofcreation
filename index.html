@@ -3,7 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>State of Creation — Alexa Bush</title>
+  <title>The State of Creation</title>
+  <meta name="description" content="A physical, mental, and spiritual state of being where we access the embodiment of an enlightened and courageous self. Building a community of young women developing the skillset to realize their purpose and actualize their potential." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The State of Creation" />
+  <meta property="og:title" content="The State of Creation" />
+  <meta property="og:description" content="Building a community of young women developing the skillset to realize their purpose and actualize their potential." />
+  <meta property="og:url" content="https://thestateofcreation.com/" />
+  <meta property="og:image" content="https://thestateofcreation.com/share-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="1600" />
+  <meta property="og:image:alt" content="Red rock towers in Sedona, with Alexa standing on a ledge" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The State of Creation" />
+  <meta name="twitter:image" content="https://thestateofcreation.com/share-image.jpg" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -227,6 +240,7 @@
       color: var(--cream);
       text-decoration: none;
       border: 1px solid var(--ink);
+      border-radius: 999px;
       transition: background .25s, border-color .25s, transform .25s;
     }
     .btn-primary:hover { background: var(--ember); border-color: var(--ember); transform: translateY(-1px); }
@@ -278,15 +292,17 @@
 
     /* ── MANIFESTO ── */
     .manifesto {
-      padding: 8rem 2rem;
-      background: var(--ink);
+      padding: 9rem 2rem;
+      background: linear-gradient(180deg, rgba(14,14,14,0.5), rgba(14,14,14,0.66)), url('images/moon-room.jpg') center 30% / cover no-repeat;
+      background-attachment: scroll, fixed;
       color: var(--cream);
       text-align: center;
       position: relative;
       overflow: hidden;
     }
     .manifesto::before {
-      content: 'SOC';
+      content: none;
+      display: none;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -370,9 +386,9 @@
 
     /* ── QUOTE ── */
     .quote-section {
-      padding: 9rem 2rem;
-      background: var(--warm-white);
+      padding: 11rem 2rem;
       text-align: center;
+      background: var(--warm-white);
     }
     .quote-section blockquote {
       font-family: var(--serif);
@@ -400,6 +416,7 @@
       color: var(--stone);
     }
 
+    html, body { overflow-x: hidden; }
     /* ── ABOUT ── */
     .section-label {
       font-size: 0.65rem;
@@ -413,6 +430,7 @@
     .about {
       padding: 8rem 2rem;
       background: var(--cream);
+      overflow-x: clip;
     }
     .about-inner {
       max-width: 1100px;
@@ -430,6 +448,7 @@
       background: var(--mist);
       position: relative;
       overflow: hidden;
+      border-radius: 999px 999px 28px 28px;
     }
     .about-frame img {
       width: 100%;
@@ -448,10 +467,11 @@
       position: absolute;
       bottom: -1.6rem;
       right: -1.6rem;
-      width: 120px;
-      height: 120px;
-      border: 2px solid var(--ember);
-      opacity: 0.4;
+      width: 130px;
+      height: 130px;
+      border: 1.5px solid var(--ember);
+      border-radius: 50%;
+      opacity: 0.45;
     }
 
     .about-text .section-label { text-align: left; }
@@ -525,6 +545,7 @@
       justify-content: center;
       padding: 1.6rem;
       margin-bottom: 1.8rem;
+      border-radius: 28px;
     }
     .tool-frame img {
       max-width: 100%;
@@ -551,7 +572,7 @@
       color: #5a4a40;
     }
     .tool-proto { margin-top: 0.9rem; font-size: 0.78rem; color: #5a4a40; }
-    .tool-proto span { display: inline-block; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ember); border: 1px solid var(--ember); padding: 0.18rem 0.5rem; margin-right: 0.5rem; vertical-align: 1px; }
+    .tool-proto span { display: inline-block; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ember); border: 1px solid var(--ember); padding: 0.18rem 0.6rem; margin-right: 0.5rem; vertical-align: 1px; border-radius: 999px; }
     .tool-proto a { color: inherit; }
     .tool-credit {
       margin-top: 0.8rem;
@@ -568,8 +589,11 @@
       padding: 3.2rem 2.4rem;
       text-align: center;
       position: relative;
+      border-radius: 32px;
+      box-shadow: 0 18px 40px rgba(74,64,57,0.08);
     }
     .signup::before {
+      display: none;
       content: '';
       position: absolute;
       top: -1px; left: 50%;
@@ -607,6 +631,7 @@
       color: var(--ink);
       outline: none;
       transition: border-color 0.2s;
+      border-radius: 999px;
     }
     .signup-form input:focus { border-color: var(--ember); }
     .signup-form button {
@@ -622,6 +647,7 @@
       border: 1px solid var(--ink);
       cursor: pointer;
       transition: background 0.2s, border-color 0.2s;
+      border-radius: 999px;
     }
     .signup-form button:hover { background: var(--ember); border-color: var(--ember); }
     .signup-note {
@@ -683,6 +709,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
+      .manifesto { background-attachment: scroll, scroll; }
       nav { padding: 1.2rem 1.6rem; }
       .nav-links { gap: 1.4rem; }
       .about-inner { grid-template-columns: 1fr; gap: 3.5rem; }
@@ -710,8 +737,9 @@
     <a class="nav-logo" href="#">The State of Creation</a>
     <ul class="nav-links">
       <li><a href="#manifesto">Manifesto</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="#about">The Concept</a></li>
       <li><a href="#tools">Free Tools</a></li>
+      <li><a href="/tracker">Tracker</a></li>
       <li><a href="/quiz">Quiz <span class="beta-tag">Beta</span></a></li>
       <li><a href="#connect">Connect</a></li>
     </ul>
@@ -736,6 +764,7 @@
       <a class="btn-link" href="#connect">Join the Community</a>
     </div>
   </section>
+
 
   <!-- MANIFESTO -->
   <section class="manifesto" id="manifesto">
@@ -777,6 +806,7 @@
     </blockquote>
     <p class="quote-attribution">— Alexa Bush</p>
   </section>
+
 
   <!-- ABOUT -->
   <section class="about" id="about">
@@ -887,8 +917,9 @@
     <p class="footer-copy">© 2026 Alexa Bush. All rights reserved.</p>
     <ul class="footer-links">
       <li><a href="#manifesto">Manifesto</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="#about">The Concept</a></li>
       <li><a href="#tools">Tools</a></li>
+      <li><a href="/tracker">Tracker</a></li>
       <li><a href="/quiz">Quiz</a></li>
       <li><a href="#connect">Connect</a></li>
     </ul>
