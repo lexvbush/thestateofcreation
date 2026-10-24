@@ -163,10 +163,7 @@
     LEVELS.forEach(([, , col], k) => mk('stop', { offset: (k + 0.5) / LEVELS.length, 'stop-color': col, 'stop-opacity': 0.16 }, grad));
     mk('rect', { x: 0, y: 0, width: W, height: H, rx: 12, fill: 'url(#wash)' });
     for (let d = 0; d <= DAYS; d++) mk('line', { x1: d * DAYW, x2: d * DAYW, y1: 0, y2: H, stroke: d === 7 ? '#b8a99a' : '#e4ddd6', 'stroke-width': d === 7 ? 1 : 0.75, 'stroke-dasharray': d % 7 ? '2 4' : '' });
-    // the Courage threshold as a gentle wave
-    { const yl = (COURAGE + 1) * ROW, seg = DAYW * 1.75, amp = 2.2; let d = `M0 ${yl}`, x = 0, up = true;
-      while (x < W) { const nx = Math.min(x + seg, W), a = up ? -amp : amp; d += ` C${x + (nx - x) * 0.25} ${yl + a} ${x + (nx - x) * 0.75} ${yl + a} ${nx} ${yl}`; x = nx; up = !up; }
-      mk('path', { d, fill: 'none', stroke: '#44bb57', 'stroke-width': 1.25 }); }
+
     for (let k = 0; k < LEVELS.length; k++) for (let s = 0; s < DAYS * 2; s++) mk('circle', { cx: slotX(s), cy: k * ROW + ROW / 2, r: 1.3, fill: '#8f8174' });
     const line = mk('path', { fill: 'none', stroke: '#0e0e0e', 'stroke-width': 1.4, 'stroke-linecap': 'round', 'stroke-opacity': 0.75 });
     const dotLayer = mk('g', {});

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community — The State of Creation</title>
+  <meta name="description" content="The State of Creation community is coming soon. Join the list to hear first." />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --ink: #0e0e0e; --cream: #f7f3ee; --warm-white: #fdfaf6; --brown: #5a4a40; --stone: #b8a99a; --ember: #44bb57; --mist: #d9cfc7; --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'DM Sans', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(180deg, rgba(14,14,14,0.5), rgba(14,14,14,0.68)), url('images/moon-room.jpg') center 30% / cover no-repeat fixed; color: var(--warm-white); font-family: var(--sans); font-weight: 300; min-height: 100svh; display: flex; flex-direction: column; }
+    header { padding: 1.4rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    header a { font-family: var(--serif); font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-white); text-decoration: none; }
+    header .back { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.16em; opacity: 0.6; }
+    main { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.6rem 6rem; }
+    .inner { max-width: 520px; width: 100%; }
+    .label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: #a8e2b2; margin-bottom: 1.2rem; }
+    h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.6rem, 7vw, 4rem); line-height: 1.1; margin-bottom: 1rem; }
+    h1 em { font-style: italic; color: #a8e2b2; }
+    .mission { font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; line-height: 2; color: rgba(253,250,246,0.85); max-width: 460px; margin: 0 auto 1.4rem; }
+    .mission b { font-weight: 500; color: #a8e2b2; }
+    p.sub { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: rgba(253,250,246,0.88); margin-bottom: 2.2rem; }
+    form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    input { flex: 1 1 220px; min-width: 0; font: inherit; font-size: 0.92rem; padding: 0.95rem 1.2rem; background: #fff; border: 1px solid var(--mist); border-radius: 999px; outline: none; }
+    input:focus { border-color: var(--ember); }
+    button { flex: 0 0 auto; font: inherit; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.95rem 1.8rem; background: var(--warm-white); color: var(--ink); border: 0; border-radius: 999px; cursor: pointer; transition: background .2s; }
+    button:hover { background: var(--ember); color: var(--warm-white); }
+    .note { margin-top: 1rem; font-size: 0.74rem; color: rgba(253,250,246,0.65); min-height: 1.2em; }
+    footer { background: var(--ink); color: rgba(247,243,238,0.5); padding: 1.8rem 2rem; font-size: 0.7rem; letter-spacing: 0.08em; text-align: center; }
+    footer a { color: rgba(247,243,238,0.75); }
+    @media (max-width: 860px) { body { background-attachment: scroll; } }
+    @media (max-width: 520px) { header { padding: 1.2rem 1.4rem; } button { flex: 1 1 100%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">The State of Creation</a>
+    <a class="back" href="/">Visit the site →</a>
+  </header>
+  <main>
+    <div class="inner">
+      <p class="label">Community</p>
+      <h1>Coming <em>soon</em>.</h1>
+      <p class="mission">Building a network of women aligned with <b>purpose</b>, <b>potential</b>, <b>courage</b> and <b>creativity</b>.</p>
+      <p class="sub">Join the list and be the first to know.</p>
+      <!-- Kit form "Founding Circle Waitlist" (form 10090787) -->
+      <form id="join" action="https://app.kit.com/forms/10090787/subscriptions" method="post">
+        <input type="email" name="email_address" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+        <button type="submit">Join</button>
+      </form>
+      <p class="note" id="note">No spam. Unsubscribe anytime.</p>
+    </div>
+  </main>
+  <footer>© 2026 Alexa Bush · <a href="/">thestateofcreation.com</a></footer>
+  <script>
+    const f = document.getElementById('join'), note = document.getElementById('note');
+    f.addEventListener('submit', async e => {
+      e.preventDefault();
+      const b = f.querySelector('button'); b.disabled = true; b.textContent = '…';
+      try {
+        const res = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' } });
+        const data = res.ok ? await res.json() : {};
+        if (data.status !== 'success') { note.style.color = '#b0413e'; note.textContent = 'Please check your email address and try again.'; b.disabled = false; b.textContent = 'Join'; return; }
+        f.style.display = 'none'; note.style.color = 'var(--warm-white)'; note.style.fontSize = '0.95rem';
+        note.textContent = 'You’re on the list. Check your inbox to confirm.';
+      } catch (err) { f.submit(); }
+    });
+  </script>
+</body>
+</html>
