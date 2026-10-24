@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Founding Circle — The State of Creation</title>
+  <meta name="description" content="We're building a community of young women who discover their purpose by acting on it: creating, expressing, and starting movements of their own. Join the founding circle." />
+  <meta property="og:title" content="Join the founding circle — The State of Creation" />
+  <meta property="og:description" content="A community of young women who discover their purpose by acting on it. Be one of the first." />
+  <meta property="og:image" content="https://thestateofcreation.com/images/moon-room.jpg" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0e0e0e; --cream: #f7f3ee; --warm-white: #fdfaf6; --brown: #5a4a40;
+      --stone: #b8a99a; --ember: #44bb57; --mist: #d9cfc7;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: hidden; }
+    body { background: var(--warm-white); color: var(--ink); font-family: var(--sans); font-weight: 300; }
+    a { color: inherit; }
+
+    header { position: absolute; top: 0; left: 0; right: 0; z-index: 5; padding: 1.4rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    header a { font-family: var(--serif); font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-white); text-decoration: none; }
+    header .back { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.16em; opacity: 0.75; }
+    header .back:hover { opacity: 1; }
+
+    .hero { min-height: 92svh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8rem 1.6rem 6rem; color: var(--warm-white);
+      background: linear-gradient(180deg, rgba(14,14,14,0.52), rgba(14,14,14,0.68)), url('images/moon-room.jpg') center 30% / cover no-repeat; }
+    .hero-inner { max-width: 760px; }
+    .pill { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid rgba(253,250,246,0.45); border-radius: 999px; margin-bottom: 2rem; }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 0 0 rgba(68,187,87,0.7); animation: pulse 2.4s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(68,187,87,0.6); } 70% { box-shadow: 0 0 0 10px rgba(68,187,87,0); } 100% { box-shadow: 0 0 0 0 rgba(68,187,87,0); } }
+    h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.8rem, 7vw, 5.2rem); line-height: 1.05; margin-bottom: 1.6rem; }
+    h1 em { font-style: italic; color: #a8e2b2; }
+    .lead { font-family: var(--serif); font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.45rem); line-height: 1.6; color: rgba(253,250,246,0.88); max-width: 620px; margin: 0 auto 2.6rem; }
+    .btn { display: inline-block; font: inherit; font-size: 0.74rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; padding: 1.05rem 2.2rem; background: var(--warm-white); color: var(--ink); border: 1px solid var(--warm-white); border-radius: 999px; cursor: pointer; text-decoration: none; transition: background .2s, color .2s, border-color .2s; }
+    .btn:hover { background: var(--ember); border-color: var(--ember); color: var(--warm-white); }
+
+    section { padding: 7rem 1.6rem; }
+    .wrap { max-width: 1080px; margin: 0 auto; }
+    .label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ember); margin-bottom: 1.1rem; }
+    h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.15; margin-bottom: 1.2rem; }
+    h2 em { font-style: italic; color: var(--ember); }
+    .center { text-align: center; }
+    .intro { max-width: 620px; margin: 0 auto 4rem; font-family: var(--serif); font-style: italic; font-size: 1.2rem; line-height: 1.7; color: #4a4039; }
+
+    .building { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.2rem; }
+    .item { text-align: center; }
+    .blob { width: 92px; height: 92px; margin: 0 auto 1.4rem; display: flex; align-items: center; justify-content: center; background: rgba(68,187,87,0.1); border: 1px solid rgba(68,187,87,0.35); font-family: var(--serif); font-size: 1.6rem; font-style: italic; color: var(--ember); }
+    .b1 { border-radius: 58% 42% 55% 45% / 45% 55% 45% 55%; }
+    .b2 { border-radius: 45% 55% 40% 60% / 55% 40% 60% 45%; }
+    .b3 { border-radius: 52% 48% 60% 40% / 40% 60% 42% 58%; }
+    .b4 { border-radius: 40% 60% 48% 52% / 58% 44% 56% 42%; }
+    .item h3 { font-family: var(--serif); font-weight: 400; font-size: 1.5rem; margin-bottom: 0.7rem; }
+    .item p { font-size: 0.88rem; line-height: 1.85; color: var(--brown); }
+
+    .foryou { background: var(--cream); }
+    .foryou-inner { max-width: 760px; margin: 0 auto; }
+    .foryou ul { list-style: none; display: grid; gap: 1.1rem; margin-top: 2.4rem; }
+    .foryou li { display: flex; gap: 1rem; align-items: flex-start; font-family: var(--serif); font-size: 1.35rem; line-height: 1.45; }
+    .foryou li::before { content: ''; flex: none; width: 12px; height: 12px; margin-top: 0.55rem; border-radius: 50%; background: var(--ember); }
+
+    .join { background: var(--warm-white); }
+    .card { max-width: 640px; margin: 0 auto; background: var(--cream); border: 1px solid var(--mist); border-radius: 36px; padding: 3.4rem 2.6rem; text-align: center; box-shadow: 0 20px 44px rgba(74,64,57,0.08); }
+    .card p.sub { font-size: 0.92rem; line-height: 1.8; color: var(--brown); margin-bottom: 2rem; }
+    form { display: grid; gap: 0.8rem; text-align: left; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    input, textarea { font: inherit; font-size: 0.92rem; padding: 0.95rem 1.2rem; background: #fff; border: 1px solid var(--mist); border-radius: 999px; color: var(--ink); outline: none; width: 100%; transition: border-color .2s; }
+    textarea { border-radius: 24px; min-height: 92px; resize: vertical; }
+    input:focus, textarea:focus { border-color: var(--ember); }
+    label.small { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--brown); padding-left: 0.6rem; margin-top: 0.4rem; }
+    form .btn { background: var(--ink); color: var(--cream); border-color: var(--ink); margin-top: 0.6rem; width: 100%; }
+    form .btn:hover { background: var(--ember); border-color: var(--ember); }
+    .note { margin-top: 1rem; font-size: 0.76rem; line-height: 1.6; color: var(--stone); text-align: center; min-height: 1.2em; }
+    .done { display: none; }
+    .done h3 { font-family: var(--serif); font-weight: 300; font-size: 2rem; margin-bottom: 0.8rem; }
+    .done h3 em { font-style: italic; color: var(--ember); }
+    .done p { font-size: 0.92rem; line-height: 1.8; color: var(--brown); }
+
+    .closing { text-align: center; padding: 5rem 1.6rem 6rem; }
+    .closing p { font-family: var(--serif); font-style: italic; font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.5; max-width: 680px; margin: 0 auto; }
+    .closing p em { color: var(--ember); }
+
+    footer { background: var(--ink); color: rgba(247,243,238,0.5); padding: 1.8rem 2rem; font-size: 0.7rem; letter-spacing: 0.08em; text-align: center; }
+    footer a { color: rgba(247,243,238,0.75); }
+
+    @media (max-width: 860px) {
+      header { padding: 1.2rem 1.4rem; }
+      .building { grid-template-columns: 1fr 1fr; gap: 2.6rem 1.6rem; }
+      section { padding: 5rem 1.4rem; }
+    }
+    @media (max-width: 520px) {
+      .building { grid-template-columns: 1fr; }
+      .row2 { grid-template-columns: 1fr; }
+      .card { padding: 2.6rem 1.4rem; border-radius: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">The State of Creation</a>
+    <a class="back" href="/">Visit the site →</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="pill"><span class="dot"></span>Now forming · The Founding Circle</span>
+      <h1>Your purpose is found in <em>motion</em>.</h1>
+      <p class="lead">We're building a community of young women who discover their purpose by acting on it — creating, expressing, and starting movements of their own. Be one of the first.</p>
+      <a class="btn" href="#join">Join the founding circle</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="label center">What we're building</p>
+      <h2 class="center">A place to <em>create</em> your purpose, together.</h2>
+      <p class="intro center">Your purpose is already in you. You don't find it by thinking harder — you find it by starting. This is where we start, side by side.</p>
+      <div class="building">
+        <div class="item"><div class="blob b1">i</div><h3>Create together</h3><p>Start the thing you keep thinking about: a personal brand, your writing, a project, a movement. Build it alongside women doing the same.</p></div>
+        <div class="item"><div class="blob b2">ii</div><h3>Practice daily</h3><p>The six pillars, the trackers and simple daily habits that turn courage into something you do, not just something you feel.</p></div>
+        <div class="item"><div class="blob b3">iii</div><h3>Gather and grow</h3><p>Live conversations, shared wins, and the hard days too. You won't be doing this alone.</p></div>
+        <div class="item"><div class="blob b4">iv</div><h3>Shape it with us</h3><p>Founding members help decide what this becomes, and get first access and founding-member perks when we open.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="foryou">
+    <div class="foryou-inner">
+      <p class="label">This is for you if</p>
+      <h2>You feel there's <em>more</em> for you.</h2>
+      <ul>
+        <li>You know there's more for you, and you're ready to find out what it is.</li>
+        <li>You have ideas you haven't started yet.</li>
+        <li>You want courage, not just inspiration.</li>
+        <li>You want to build alongside women who understand.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="join" id="join">
+    <div class="card">
+      <div id="join-form-wrap">
+        <p class="label">The founding circle</p>
+        <h2>Save your <em>place</em>.</h2>
+        <p class="sub">Join the waitlist to be one of the first women in the community. You'll hear everything first, and help shape what we build.</p>
+        <!-- Kit form "Founding Circle Waitlist" (form 10090787). Double opt-in: confirming redirects to /welcome.html -->
+        <form id="join-form" action="https://app.kit.com/forms/10090787/subscriptions" method="post">
+          <div class="row2">
+            <input type="text" name="fields[first_name]" placeholder="First name" autocomplete="given-name" aria-label="First name" />
+            <input type="email" name="email_address" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+          </div>
+          <label class="small" for="create">What do you want to create? <span style="color:var(--stone)">(optional)</span></label>
+          <textarea id="create" name="fields[creation_intent]" placeholder="A brand, a book, a business, a movement…"></textarea>
+          <button class="btn" type="submit">Save my place</button>
+        </form>
+        <p class="note" id="join-note">No spam. Unsubscribe anytime.</p>
+      </div>
+      <div class="done" id="join-done">
+        <h3>You're <em>in</em>.</h3>
+        <p>Check your inbox for an email from me and tap the button to confirm your place in the founding circle. (If it's not there in a few minutes, check Promotions or Spam.)</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <p>If you're hungry for purpose, <em>you're already on its path.</em></p>
+  </section>
+
+  <footer>© 2026 Alexa Bush · <a href="/">thestateofcreation.com</a></footer>
+
+  <script>
+    const form = document.getElementById('join-form'), note = document.getElementById('join-note');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = form.querySelector('button');
+      btn.disabled = true; btn.textContent = 'Saving…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+        const data = res.ok ? await res.json() : {};
+        if (data.status !== 'success') {
+          const msgs = (data.errors && data.errors.messages) || [];
+          note.style.color = '#b0413e';
+          note.textContent = msgs.some(m => /email/i.test(m))
+            ? 'That email address doesn’t look quite right — please check it and try again.'
+            : 'Something went wrong — please try again in a moment.';
+          btn.disabled = false; btn.textContent = 'Save my place';
+          return;
+        }
+        document.getElementById('join-form-wrap').style.display = 'none';
+        document.getElementById('join-done').style.display = 'block';
+      } catch (err) {
+        form.submit();
+      }
+    });
+  </script>
+</body>
+</html>
