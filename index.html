@@ -172,11 +172,10 @@
 
     .hero-title {
       font-family: var(--serif);
-      font-size: clamp(1.9rem, 5.2vw, 3.6rem);
-      font-weight: 400;
-      line-height: 1.35;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
       color: var(--ink);
       position: relative;
       z-index: 1;
@@ -237,6 +236,12 @@
       opacity: 0;
       animation: fadeUp 1s 1.2s forwards;
     }
+    .hero-icons { gap: 2.4rem; }
+    .icon-link { display: flex; flex-direction: column; align-items: center; gap: 0.55rem; text-decoration: none; color: var(--ink); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.8; transition: opacity .2s, color .2s; }
+    .icon-link .ic { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--mist); display: flex; align-items: center; justify-content: center; transition: border-color .2s, background .2s; }
+    .icon-link svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-link:hover { opacity: 1; color: var(--ember); }
+    .icon-link:hover .ic { border-color: var(--ember); background: rgba(68,187,87,0.06); }
     .btn-primary {
       display: inline-block;
       font-size: 0.72rem;
@@ -772,7 +777,7 @@
     <div class="hero-inner-circle" aria-hidden="true"></div>
     <p class="hero-eyebrow">The concept and movement</p>
     <h1 class="hero-title">
-      The State <br class="br-m">of Creation
+      The <em>State</em><br>of Creation
     </h1>
     <div class="hero-rule"></div>
     <p class="hero-tagline">
@@ -780,9 +785,10 @@
       the embodiment of an enlightened and courageous self.
     </p>
     <p class="hero-mission">Building a community of young women developing the skillset to <b>realize their purpose</b> and <b>actualize their potential</b>.</p>
-    <div class="hero-cta">
-      <a class="btn-primary" href="/free">Get the free trackers</a>
-      <a class="btn-link" href="#manifesto">Read the manifesto</a>
+    <div class="hero-cta hero-icons">
+      <a href="/free" class="icon-link"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h7.5L18 7v13.5H7z"/><path d="M14.5 3.5V7H18"/><path d="M9.5 11h6M9.5 14h6M9.5 17h4"/></svg></span><span>Free trackers</span></a>
+      <a href="#manifesto" class="icon-link"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5c-2-1.6-4.7-2-7.5-1.6v13c2.8-.4 5.5 0 7.5 1.6 2-1.6 4.7-2 7.5-1.6v-13c-2.8-.4-5.5 0-7.5 1.6z"/><path d="M12 6.5v13"/></svg></span><span>Manifesto</span></a>
+      <a href="/community" class="icon-link"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.5" cy="9" r="2.6"/><circle cx="15.5" cy="9" r="2.6"/><path d="M3.8 18.5c.6-3 2.4-4.6 4.7-4.6s4.1 1.6 4.7 4.6"/><path d="M10.8 18.5c.6-3 2.4-4.6 4.7-4.6s4.1 1.6 4.7 4.6"/></svg></span><span>Community</span></a>
     </div>
   </section>
 
